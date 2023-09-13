@@ -12,7 +12,7 @@ private:
 
 	unsigned int DefineNonZeroElements(int** arr, const int& rows, const int& columns);
 	void AllocateMem();
-	int** Swap(int** prevMat, int** newMat, const int rows = 0, const int columns = 0);
+	int** Swap(int** prevMat, int** newMat);
 	int* GetElement(const unsigned int rows, const unsigned int columns, const unsigned int id);
 public:
 	sparseMatrix();

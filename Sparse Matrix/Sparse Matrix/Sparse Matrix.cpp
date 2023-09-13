@@ -14,8 +14,11 @@ int main()
 			mat[i][j] = 0;
 	}
 	mat[2][2] = 5;
+	mat[0][0] = 44;
+	mat[1][2] = 77;
 
     sparseMatrix matrix(mat, 3, 3);
-	std::cout << matrix.GetElement(3,3) << '\n';
+	std::cout << matrix.GetElement(0,0) << '\n';
+	matrix.Task();
 	matrix.PrintMatrix();
 }
