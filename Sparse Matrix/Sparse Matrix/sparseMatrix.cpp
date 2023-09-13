@@ -1,4 +1,5 @@
 #include "sparseMatrix.h"
+#include <iostream>
 
 unsigned int sparseMatrix::DefineNonZeroElements(int** arr, 
 	const int& rows, const int& columns)
@@ -49,9 +50,33 @@ int** sparseMatrix::Swap(int** prevMat, int** newMat, const int rows, const int 
 	return newMat;
 }
 
-sparseMatrix::sparseMatrix(): countElements(0), matrix(nullptr) {}
+int* sparseMatrix::GetElement(const unsigned int rows, const unsigned int columns, 
+	const unsigned int id)
+{
+	for (int i = 0; i < countElements; i++)
+		if (rows == matrix[i][0] && columns == matrix[i][1])
+			switch (id)
+			{
+			case 0:
+				return &matrix[i][0];
+				break;
+			case 1:
+				return &matrix[i][1];
+				break;
+			case 2:
+				return &matrix[i][2];
+				break;
+			default:
+				return nullptr;
+				break;
+			}
+	return nullptr;
+}
 
-sparseMatrix::sparseMatrix(int** arr, const int& rows, const int& columns)
+sparseMatrix::sparseMatrix(): countElements(0), matrix(nullptr), columns(0), rows(0) {}
+
+sparseMatrix::sparseMatrix(int** arr, const int& rows, const int& columns): 
+	rows(rows), columns(columns)
 {
 	if (rows > 0 && columns > 0)
 	{
@@ -75,9 +100,64 @@ int sparseMatrix::GetElement(const unsigned int rows, const unsigned int columns
 	return 0;
 }
 
+void sparseMatrix::PrintMatrix()
+{
+	if(matrix == nullptr)
+		std::cout << "There's no matrix to show" << '\n';
+	else
+	{
+		for (int i = 0; i < rows; i++)
+		{
+			for (int j = 0; j < columns; j++)
+				std::cout << GetElement(i, j) << ' ';
+			std::cout << '\n';
+		}
+	}
+}
+
+void sparseMatrix::Task()
+{
+	bool rowTransfer = false;
+	int* tmpBuffer = new int[columns];
+
+	for (size_t i = 0; i < columns; i++)
+		tmpBuffer[i] = 0;
+
+	for (int i = 0; i < rows; i++)
+	{
+		for (size_t i = 0; i < columns - 1; i++)
+			tmpBuffer[i] = 0;
+
+		if (!tmpBuffer[columns - 1])
+			rowTransfer = true;
+
+		for (int j = 1; j < columns; j++)
+		{
+			if (rowTransfer)
+			{
+				tmpBuffer[j] = GetElement(i, j);
+
+				*GetElement(i - 1, columns - 1, 0) += 1;
+				*GetElement(i - 1, columns - 1, 1) = 0;
+
+				*GetElement(i, j - 1, 1) += 1;
+
+				rowTransfer = false;
+				tmpBuffer[columns - 1] = 0;
+			}
+			else if (GetElement(i, j - 1) != tmpBuffer[j - 1])
+			{
+				tmpBuffer[j] = GetElement(i, j);
+
+				*GetElement(i, j - 1, 1) += 1;
+			}
+		}
+	}
+}
+
 sparseMatrix::~sparseMatrix()
 {
-	for (int i = 0; i < countElements; i++)
+	for (int i = 0; i < rows; i++)
 	{
 		delete[] matrix[i];
 	}
