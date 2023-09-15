@@ -26,6 +26,7 @@ int main()
     sparseMatrix matrix(mat, 3, 3);
 	std::cout << matrix.GetElement(0,0) << '\n';
 	matrix.Task();
+    matrix.AddElement(54, 4, 4);
 	matrix.PrintMatrix();
 }
 
@@ -34,11 +35,13 @@ int main()
 */
 sparseMatrix& RandomFillList(const unsigned int rows, const unsigned int columns)
 {
+    sparseMatrix matrix;
     srand(time(NULL));
     for (int i = 0; i < 15; i++)
     {
         
     }
+    return matrix;
 }
 
 /*
@@ -49,7 +52,7 @@ sparseMatrix& FileFillList()
     std::ifstream file;
     std::string tmp;
     file.exceptions(std::ifstream::badbit | std::ifstream::failbit);
-    int** tmpMatrix; int rows = 0, columns = 0;
+    int** tmpMatrix = nullptr; int rows = 0, columns = 0;
 
     try
     {

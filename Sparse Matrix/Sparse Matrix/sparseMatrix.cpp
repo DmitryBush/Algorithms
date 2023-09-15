@@ -12,40 +12,15 @@ unsigned int sparseMatrix::DefineNonZeroElements(int** arr,
 	return count;
 }
 
-int** sparseMatrix::AllocateMem(int** arr, const short int& paramOffset)
+int** sparseMatrix::AllocateMem(int** arr, const unsigned int offset)
 {
-	switch (paramOffset)
+	arr = new int* [countElements + offset];
+
+	for (int i = 0; i < countElements + offset; i++)
 	{
-	case 0:
-		arr = new int* [countElements];
-
-		for (int i = 0; i < countElements; i++)
-		{
-			arr[i] = new int[3];
-		}
-		return arr;
-		break;
-	case 1:
-		arr = new int* [countElements + 1];
-
-		for (int i = 0; i < countElements + 1; i++)
-		{
-			arr[i] = new int[3];
-		}
-		return arr;
-		break;
-	case -1:
-		arr = new int* [countElements - 1];
-
-		for (int i = 0; i < countElements - 1; i++)
-		{
-			arr[i] = new int[3];
-		}
-		return arr;
-		break;
-	default:
-		break;
+		arr[i] = new int[3]{-1};
 	}
+	return arr;
 }
 
 int** sparseMatrix::Swap(int** prevMat, int** newMat, bool compr)
@@ -55,9 +30,14 @@ int** sparseMatrix::Swap(int** prevMat, int** newMat, bool compr)
 	{
 		for (int i = 0; i < countElements; i++)
 		{
-			newMat[i][0] = prevMat[i][0];
-			newMat[i][1] = prevMat[i][1];
-			newMat[i][2] = prevMat[i][2];
+			if (prevMat[i][0] != -1)
+			{
+				newMat[i][0] = prevMat[i][0];
+				newMat[i][1] = prevMat[i][1];
+				newMat[i][2] = prevMat[i][2];
+			}
+			else
+				capacity--;
 		}
 		return newMat;
 	}
@@ -76,7 +56,35 @@ int** sparseMatrix::Swap(int** prevMat, int** newMat, bool compr)
 	}
 }
 
-sparseMatrix::sparseMatrix(): countElements(0), matrix(nullptr), columns(0), rows(0) {}
+void sparseMatrix::CleanUpArray()
+{
+	if (matrix)
+	{
+		for (int i = 0; i < capacity; i++)
+		{
+			delete[] matrix[i];
+		}
+		delete[] matrix;
+
+		matrix = nullptr;
+	}
+}
+
+void sparseMatrix::GarbageCollector()
+{
+	int** newArr = nullptr;
+	capacity = static_cast<unsigned int>(capacity / 1.25);
+	newArr = AllocateMem(newArr, capacity - countElements);
+
+	newArr = Swap(matrix, newArr, true);
+
+	CleanUpArray();
+
+	matrix = newArr;
+}
+
+sparseMatrix::sparseMatrix(): countElements(0), matrix(nullptr), capacity(0),
+	columns(0), rows(0) {}
 
 sparseMatrix::sparseMatrix(int** arr, const int& rows, const int& columns): 
 	rows(rows), columns(columns)
@@ -84,53 +92,70 @@ sparseMatrix::sparseMatrix(int** arr, const int& rows, const int& columns):
 	if (rows > 0 && columns > 0)
 	{
 		countElements = DefineNonZeroElements(arr, rows, columns);
-		matrix = AllocateMem(matrix, 0);
+		capacity = countElements * 2;
+		matrix = AllocateMem(matrix, countElements);
 
 		matrix = Swap(arr, matrix, false);
 	}
 	else
 	{
 		countElements = 0;
+		capacity = 0;
 		matrix = nullptr;
 	}
 }
 
 void sparseMatrix::AddElement(const int val, const unsigned int row, const unsigned int column)
 {
-	int** newArr = nullptr;
-	newArr = AllocateMem(newArr, 1);
-	
-	newArr = Swap(matrix, newArr, true);
-	newArr[countElements + 1][0] = row;
-	newArr[countElements + 1][1] = column;
-	newArr[countElements + 1][2] = val;
+	if (capacity > countElements)
+	{
+		for (int i = 0; i < capacity; i++)
+		{
+			if (matrix[i][0] == -1)
+			{
+				matrix[countElements][0] = row - 1;
+				matrix[countElements][1] = column - 1;
+				matrix[countElements][2] = val;
 
-	Clear(); countElements++;
-	if (row > rows) { rows = row; }
-	if (column > columns) { columns = column; }
+				countElements++;
+				if (row > rows) { rows = row; }
+				if (column > columns) { columns = column; }
+				return;
+			}
+		}
+		throw("Memory leaking");
+	}
+	else
+	{
+		int** newArr = nullptr;
+		capacity = (countElements + 1) * 2;
+		newArr = AllocateMem(newArr, countElements + 1);
+
+		newArr = Swap(matrix, newArr, true);
+		newArr[countElements][0] = row - 1;
+		newArr[countElements][1] = column - 1;
+		newArr[countElements][2] = val;
+
+		CleanUpArray(); countElements++;
+		if (row > rows) { rows = row; }
+		if (column > columns) { columns = column; }
+		matrix = newArr;
+	}
 }
 
 int sparseMatrix::GetElement(const unsigned int rows, const unsigned int columns)
 {
-	for (int i = 0; i < countElements; i++)
-		if (rows == matrix[i][0] && columns == matrix[i][1])
-			return matrix[i][2];
+	for (int i = 0; i < capacity; i++)
+		if(matrix[i][0] != -1)
+			if (rows == matrix[i][0] && columns == matrix[i][1])
+				return matrix[i][2];
 	return 0;
 }
 
 void sparseMatrix::Clear()
 {
-	if (matrix)
-	{
-		for (int i = 0; i < countElements; i++)
-		{
-			delete[] matrix[i];
-		}
-		delete[] matrix;
-
-		matrix = nullptr;
-		countElements = 0, rows = 0, columns = 0;
-	}
+	CleanUpArray();
+	countElements = 0, rows = 0, columns = 0;
 }
 
 void sparseMatrix::PrintMatrix()

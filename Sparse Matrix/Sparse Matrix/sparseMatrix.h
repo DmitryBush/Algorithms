@@ -9,10 +9,13 @@ private:
 	unsigned int countElements;
 
 	int** matrix;
+	unsigned int capacity;
 
 	unsigned int DefineNonZeroElements(int** arr, const int& rows, const int& columns);
-	int** AllocateMem(int** arr, const short int& paramOffset);
+	int** AllocateMem(int** arr, const unsigned int offset);
 	int** Swap(int** prevMat, int** newMat, bool compr);
+	void CleanUpArray();
+	void GarbageCollector();
 public:
 	sparseMatrix();
 	sparseMatrix(int** arr, const int& rows, const int& columns);
