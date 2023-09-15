@@ -1,5 +1,11 @@
 ﻿#include <iostream>
 #include "sparseMatrix.h"
+#include <fstream>
+#include <string>
+
+sparseMatrix& FileFillList();
+void CheckInputValidation(int& inpValue, const char* str);
+sparseMatrix& RandomFillList(const unsigned int rows, const unsigned int columns);
 
 int main()
 {
@@ -21,4 +27,81 @@ int main()
 	std::cout << matrix.GetElement(0,0) << '\n';
 	matrix.Task();
 	matrix.PrintMatrix();
+}
+
+/*
+* Функция заполнения списка случайными числами
+*/
+sparseMatrix& RandomFillList(const unsigned int rows, const unsigned int columns)
+{
+    srand(time(NULL));
+    for (int i = 0; i < 15; i++)
+    {
+        
+    }
+}
+
+/*
+* Функция заполнения списка из файла
+*/
+sparseMatrix& FileFillList()
+{
+    std::ifstream file;
+    std::string tmp;
+    file.exceptions(std::ifstream::badbit | std::ifstream::failbit);
+    int** tmpMatrix; int rows = 0, columns = 0;
+
+    try
+    {
+        file.open("matrix.txt");
+
+        std::getline(file, tmp);
+        rows = std::stoi(tmp);
+
+        tmpMatrix = new int* [rows];
+        std::getline(file, tmp);
+        columns = std::stoi(tmp);
+        for (int i = 0; i < rows; i++)
+        {
+            tmpMatrix[i] = new int[columns];
+        }
+
+        register int i = 0, j = 0;
+        while (!file.eof())
+        {
+            if (j >= columns) { j = 0; i++; }
+            else if (i >= rows) { break; }
+            std::getline(file, tmp);
+
+            tmpMatrix[i][j] = std::stoi(tmp);
+            j++;
+        }
+        file.close();
+    }
+    catch (const std::exception& ex)
+    {
+        std::cout << "An error has occuried" << '\n' << ex.what() << '\n';
+        if (tmpMatrix)
+        {
+            for (int i = 0; i < rows; i++)
+            {
+                delete[] tmpMatrix[i];
+            }
+            delete[] tmpMatrix;
+        }
+    }
+    sparseMatrix matrix(tmpMatrix, rows, columns);
+    return matrix;
+}
+
+void CheckInputValidation(int& inpValue, const char* str)
+{
+    while (std::cin.fail())
+    {
+        system("cls");
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "An error has occuried" << '\n' << "Try entering again " << str << '\n';
+        std::cin >> inpValue;
+    }
 }
