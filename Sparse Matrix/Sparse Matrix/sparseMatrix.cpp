@@ -36,8 +36,6 @@ int** sparseMatrix::Swap(int** prevMat, int** newMat, bool compr)
 				newMat[i][1] = prevMat[i][1];
 				newMat[i][2] = prevMat[i][2];
 			}
-			else
-				capacity--;
 		}
 		return newMat;
 	}
@@ -74,7 +72,7 @@ void sparseMatrix::GarbageCollector()
 {
 	int** newArr = nullptr;
 	capacity = static_cast<unsigned int>(capacity / 1.25);
-	newArr = AllocateMem(newArr, capacity - countElements);
+	newArr = AllocateMem(newArr, countElements);
 
 	newArr = Swap(matrix, newArr, true);
 
@@ -143,6 +141,22 @@ void sparseMatrix::AddElement(const int val, const unsigned int row, const unsig
 	}
 }
 
+void sparseMatrix::DeleteElement(const unsigned int row, const unsigned int column)
+{
+	if (countElements * 2.5 < capacity)
+		GarbageCollector();
+
+	for (int i = 0; i < capacity; i++)
+	{
+		if (row == matrix[i][0] && column == matrix[i][1])
+		{
+			matrix[i][0] = -1;
+			countElements--;
+			break;
+		}	
+	}
+}
+
 int sparseMatrix::GetElement(const unsigned int rows, const unsigned int columns)
 {
 	for (int i = 0; i < capacity; i++)
@@ -155,7 +169,7 @@ int sparseMatrix::GetElement(const unsigned int rows, const unsigned int columns
 void sparseMatrix::Clear()
 {
 	CleanUpArray();
-	countElements = 0, rows = 0, columns = 0;
+	countElements = 0, rows = 0, columns = 0, capacity = 0;
 }
 
 void sparseMatrix::PrintMatrix()
@@ -175,20 +189,23 @@ void sparseMatrix::PrintMatrix()
 
 void sparseMatrix::Task()
 {
-	for (int i = 0; i < countElements; i++)
+	for (int i = 0; i < capacity; i++)
 	{
-		if (matrix[i][1] + 1 > columns - 1 && matrix[i][0] + 1 > rows - 1)
+		if (matrix[i][0] != -1)
 		{
-			matrix[i][0] = 0;
-			matrix[i][1] = 0;
+			if (matrix[i][1] + 1 > columns - 1 && matrix[i][0] + 1 > rows - 1)
+			{
+				matrix[i][0] = 0;
+				matrix[i][1] = 0;
+			}
+			else if (matrix[i][1] + 1 > columns - 1)
+			{
+				matrix[i][0]++;
+				matrix[i][1] = 0;
+			}
+			else
+				matrix[i][1]++;
 		}
-		else if (matrix[i][1] + 1 > columns - 1)
-		{
-			matrix[i][0]++;
-			matrix[i][1] = 0;
-		}
-		else
-			matrix[i][1]++;
 	}
 }
 

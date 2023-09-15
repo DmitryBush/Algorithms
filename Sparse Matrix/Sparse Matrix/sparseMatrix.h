@@ -21,6 +21,7 @@ public:
 	sparseMatrix(int** arr, const int& rows, const int& columns);
 
 	void AddElement(const int val, const unsigned int row, const unsigned int column);
+	void DeleteElement(const unsigned int row, const unsigned int column);
 	int GetElement(const unsigned int rows, const unsigned int columns);
 
 	void Clear();

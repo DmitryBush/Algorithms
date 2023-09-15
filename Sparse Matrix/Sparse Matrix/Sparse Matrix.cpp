@@ -9,6 +9,8 @@ sparseMatrix& RandomFillList(const unsigned int rows, const unsigned int columns
 
 int main()
 {
+    unsigned int count = 18;
+    std::cout << count * 2.5 << ' ';
     int** mat = new int*[3];
 	for (int i = 0; i < 3; i++)
 	{
