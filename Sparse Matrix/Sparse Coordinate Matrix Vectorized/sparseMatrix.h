@@ -1,7 +1,7 @@
 #pragma once
 
 
-class sparseMatrix
+class sparse_coordinate_matrix_vectorized
 {
 private:
 	unsigned int columns;
@@ -9,17 +9,16 @@ private:
 	unsigned int countElements;
 
 	int** matrix;
+	unsigned int capacity;
 
 	unsigned int DefineNonZeroElements(int** arr, const int& rows, const int& columns);
 	int** AllocateMem(int** arr, const unsigned int offset);
 	int** Swap(int** prevMat, int** newMat, bool compr);
 	void CleanUpArray();
-	int* GetElement(const unsigned int rows, const unsigned int columns,
-		const bool DEV_MODE);
-	bool FindElement(const unsigned int row, const unsigned int column);
+	void GarbageCollector();
 public:
-	sparseMatrix();
-	sparseMatrix(int** arr, const int& rows, const int& columns);
+	sparse_coordinate_matrix_vectorized();
+	sparse_coordinate_matrix_vectorized(int** arr, const int& rows, const int& columns);
 
 	void AddElement(const int val, const unsigned int row, const unsigned int column);
 	void DeleteElement(const unsigned int row, const unsigned int column);
@@ -31,5 +30,5 @@ public:
 
 	void Task();
 
-	~sparseMatrix();
+	~sparse_coordinate_matrix_vectorized();
 };

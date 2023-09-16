@@ -2,46 +2,116 @@
 #include "sparseMatrix.h"
 #include <fstream>
 #include <string>
+#include <conio.h>
 
-sparseMatrix& FileFillList();
+sparseMatrix& FileFillMatrix();
 void CheckInputValidation(int& inpValue, const char* str);
-sparseMatrix& RandomFillList(const unsigned int rows, const unsigned int columns);
+sparseMatrix& RandomFillMatrix(sparseMatrix& matrix, const unsigned int row,
+    const unsigned int column);
 
 int main()
 {
-    unsigned int count = 18;
-    std::cout << count * 2.5 << ' ';
-    int** mat = new int*[3];
-	for (int i = 0; i < 3; i++)
-	{
-		mat[i] = new int[3];
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		for (int j = 0; j < 3; j++)
-			mat[i][j] = 0;
-	}
-	mat[2][2] = 5;
-	mat[0][0] = 44;
-	mat[1][2] = 77;
+    bool running = true; sparseMatrix matrix;
+    while (running)
+    {
+        int elem[3]{0};
+        matrix.PrintMatrix();
+        std::cout << "Operations:" << '\n'
+            << "1) Add Element" << '\n'
+            << "2) Delete Element" << '\n'
+            << "3) Edit Element" << '\n'
+            << "4) Clear matrix" << '\n'
+            << "5) Fill matrix random numbers" << '\n'
+            << "6) Fill matrix from file" << '\n'
+            << "7) Run Task" << '\n'
+            << "0) Close" << '\n';
+        switch (_getch())
+        {
+        case '1':
+            std::cout << "Enter row" << '\n';
+            std::cin >> elem[0];
+            CheckInputValidation(elem[0], "value");
 
-    sparseMatrix matrix(mat, 3, 3);
-	std::cout << matrix.GetElement(0,0) << '\n';
-	matrix.Task();
-    matrix.AddElement(54, 4, 4);
-	matrix.PrintMatrix();
+            std::cout << "Enter column" << '\n';
+            std::cin >> elem[1];
+            CheckInputValidation(elem[1], "value");
+
+            std::cout << "Enter value" << '\n';
+            std::cin >> elem[2];
+            CheckInputValidation(elem[2], "value");
+            matrix.AddElement(elem[2], elem[0], elem[1]);
+
+            system("cls");
+            break;
+        case '2':
+            std::cout << "Enter element to delete" << '\n';
+            std::cout << "Enter row" << '\n';
+            std::cin >> elem[0];
+            CheckInputValidation(elem[0], "value");
+
+            std::cout << "Enter column" << '\n';
+            std::cin >> elem[1];
+            CheckInputValidation(elem[1], "value");
+            matrix.DeleteElement(elem[0], elem[1]);
+
+            system("cls");
+            break;
+        case '3':
+            system("cls");
+            
+            break;
+        case '4':
+            system("cls");
+            matrix.Clear();
+
+            break;
+        case '5':
+            system("cls");
+            std::cout << "Enter row" << '\n';
+            std::cin >> elem[0];
+            CheckInputValidation(elem[0], "value");
+
+            std::cout << "Enter column" << '\n';
+            std::cin >> elem[1];
+            CheckInputValidation(elem[1], "value");
+
+            RandomFillMatrix(matrix, elem[0], elem[1]);
+
+            break;
+        case '6':
+            system("cls");
+            FileFillMatrix();
+
+            break;
+        case '7':
+            system("cls");
+            matrix.Task();
+
+            break;
+        case '0':
+            running = false;
+            break;
+        default:
+            system("cls");
+            std::cout << "An error has occuried" << '\n';
+            break;
+        }
+    }
+    return 0;
 }
 
 /*
 * Функция заполнения списка случайными числами
 */
-sparseMatrix& RandomFillList(const unsigned int rows, const unsigned int columns)
+sparseMatrix& RandomFillMatrix(sparseMatrix& matrix,const unsigned int row, 
+    const unsigned int column)
 {
-    sparseMatrix matrix;
     srand(time(NULL));
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < (row + column) ; i++)
     {
-        
+        matrix.AddElement((rand() % 10) + 1, 
+            static_cast<unsigned int>((rand() % row) + 1), 
+            static_cast<unsigned int>((rand() % column) + 1));
     }
     return matrix;
 }
@@ -49,7 +119,7 @@ sparseMatrix& RandomFillList(const unsigned int rows, const unsigned int columns
 /*
 * Функция заполнения списка из файла
 */
-sparseMatrix& FileFillList()
+sparseMatrix& FileFillMatrix()
 {
     std::ifstream file;
     std::string tmp;
