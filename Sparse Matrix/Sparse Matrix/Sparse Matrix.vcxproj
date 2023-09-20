@@ -131,6 +131,7 @@
     <ClCompile Include="sparseMatrix.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MatrixUtils.h" />
     <ClInclude Include="sparseMatrix.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
