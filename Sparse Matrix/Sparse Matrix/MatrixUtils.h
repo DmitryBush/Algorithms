@@ -8,7 +8,7 @@
 namespace matUtils
 {
     /*
-    * Функция заполнения списка случайными числами
+    * Функция заполнения матрицы случайными числами
     */
     sparseCoordMatrix& RandomFillMatrix(sparseCoordMatrix& matrix, const unsigned int row,
         const unsigned int column)
@@ -24,7 +24,7 @@ namespace matUtils
     }
 
     /*
-    * Функция заполнения списка из файла
+    * Функция заполнения матрицы из файла
     */
     int** FileFillMatrix()
     {
@@ -78,6 +78,9 @@ namespace matUtils
         return tmpMatrix;
     }
 
+    /*
+    * Функция проверки корректности ввода
+    */
     void CheckInputValidation(int& inpValue, const char* str)
     {
         while (std::cin.fail())

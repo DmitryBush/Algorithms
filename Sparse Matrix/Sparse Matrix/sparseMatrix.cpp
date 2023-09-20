@@ -1,6 +1,9 @@
 #include "sparseMatrix.h"
 #include <iostream>
 
+/*
+* Метод определяющий количество элементов для массива
+*/
 unsigned int sparseCoordMatrix::DefineNonZeroElements(int** arr, 
 	const int& rows, const int& columns)
 {
@@ -12,6 +15,9 @@ unsigned int sparseCoordMatrix::DefineNonZeroElements(int** arr,
 	return count;
 }
 
+/*
+* Метод для выделения памяти массивов
+*/
 int** sparseCoordMatrix::AllocateMem(int** arr, const unsigned int offset)
 {
 	arr = new int* [countElements + offset];
@@ -23,6 +29,10 @@ int** sparseCoordMatrix::AllocateMem(int** arr, const unsigned int offset)
 	return arr;
 }
 
+/*
+* Метод копирования двух массивов
+* bool compr - Используется ли координатный тип хранения
+*/
 int** sparseCoordMatrix::Swap(int** prevMat, int** newMat, bool compr)
 {
 	unsigned int k = 0;
@@ -31,7 +41,7 @@ int** sparseCoordMatrix::Swap(int** prevMat, int** newMat, bool compr)
 		int maxRow = 0, maxColumn = 0;
 		for (int i = 0; i < countElements; i++)
 		{
-			if (prevMat[i][0] != -1)
+			if (prevMat[i][0] != -1) // значение -1 появляется при удалении элемента
 			{
 				newMat[i][0] = prevMat[i][0];
 				newMat[i][1] = prevMat[i][1];
@@ -64,6 +74,9 @@ int** sparseCoordMatrix::Swap(int** prevMat, int** newMat, bool compr)
 	}
 }
 
+/*
+* Метод для очищения памяти в массиве
+*/
 void sparseCoordMatrix::CleanUpArray()
 {
 	if (matrix)
@@ -78,6 +91,9 @@ void sparseCoordMatrix::CleanUpArray()
 	}
 }
 
+/*
+* Метод для получения указателя на элемент
+*/
 int* sparseCoordMatrix::GetElement(const unsigned int& row, const unsigned int& column,
 	const bool& DEV_MODE)
 {
@@ -87,8 +103,14 @@ int* sparseCoordMatrix::GetElement(const unsigned int& row, const unsigned int& 
 	return nullptr;
 }
 
+/*
+* Конструктор без параметров
+*/
 sparseCoordMatrix::sparseCoordMatrix(): countElements(0), matrix(nullptr), columns(0), rows(0) {}
 
+/*
+* Конструктор с параметрами
+*/
 sparseCoordMatrix::sparseCoordMatrix(int** arr, const int& rows, const int& columns): 
 	rows(rows), columns(columns)
 {
@@ -106,19 +128,22 @@ sparseCoordMatrix::sparseCoordMatrix(int** arr, const int& rows, const int& colu
 	}
 }
 
+/*
+* Метод для добавления элементов в матрицу
+*/
 void sparseCoordMatrix::AddElement(const int& val, 
 	const unsigned int& row, const unsigned int& column)
 {
 	auto ptr = GetElement(row - 1, column - 1, true);
 	if (row < 0 || column < 0)
 		throw("Invalid index");
-	else if (val == 0)
+	else if (val == 0) // При нулевом значении нет необходимости добавлять элемент
 	{
 		if (row > rows) { rows = row; }
 		if (column > columns) { columns = column; }
 		return;
 	}
-	else if (ptr != nullptr)
+	else if (ptr != nullptr) // Если элемент существует, то перезаписать
 	{
 		*(ptr + 2) = val;
 	}
@@ -139,6 +164,9 @@ void sparseCoordMatrix::AddElement(const int& val,
 	}
 }
 
+/*
+* Метод для удаления элемента
+*/
 void sparseCoordMatrix::DeleteElement(const unsigned int& row, const unsigned int& column)
 {
 	for (int i = 0; i < countElements; i++)
@@ -157,6 +185,9 @@ void sparseCoordMatrix::DeleteElement(const unsigned int& row, const unsigned in
 	}
 }
 
+/*
+* Метод для удаления элемента
+*/
 int sparseCoordMatrix::GetElement(const unsigned int& rows, const unsigned int& columns)
 {
 	for (int i = 0; i < countElements; i++)
@@ -165,6 +196,9 @@ int sparseCoordMatrix::GetElement(const unsigned int& rows, const unsigned int& 
 	return 0;
 }
 
+/*
+* Метод для импорта матрицы 
+*/
 void sparseCoordMatrix::ImportMatrix(int** arr, const int& rows, const int& columns)
 {
 	if (matrix != nullptr)
@@ -183,12 +217,18 @@ void sparseCoordMatrix::ImportMatrix(int** arr, const int& rows, const int& colu
 	}
 }
 
+/*
+* Метод для очищения матрицы
+*/
 void sparseCoordMatrix::Clear()
 {
 	CleanUpArray();
 	countElements = 0, rows = 0, columns = 0;
 }
 
+/*
+* Метод доступа к элементу
+*/
 int* sparseCoordMatrix::At(const unsigned int& row, const unsigned int& column)
 {
 	if (row <= 0 || column <= 0 
@@ -203,6 +243,9 @@ int* sparseCoordMatrix::At(const unsigned int& row, const unsigned int& column)
 		return nullptr;
 }
 
+/*
+* Метод для отображения матрицы
+*/
 void sparseCoordMatrix::PrintMatrix()
 {
 	if(matrix == nullptr)
@@ -219,6 +262,13 @@ void sparseCoordMatrix::PrintMatrix()
 	}
 }
 
+/*
+* Задача 4. Дана разреженная матрица (CS). Осуществить циклический сдвиг в матрице. 
+* Сдвинуть всю матрицу. В первой строке первый элемент переносится на второе место, 
+* второй элемент на третье и т.д. 
+* Последний элемент в первой строке становиться первым элементом во второй строке. 
+* Последний элемент в последней строке переноситься на первую строку на первое место.
+*/
 void sparseCoordMatrix::Task()
 {
 	PrintMatrix(); std::cout << '\n' <<  '\n';
@@ -239,6 +289,9 @@ void sparseCoordMatrix::Task()
 	}
 }
 
+/*
+* Деструктор
+*/
 sparseCoordMatrix::~sparseCoordMatrix()
 {
 	Clear();
