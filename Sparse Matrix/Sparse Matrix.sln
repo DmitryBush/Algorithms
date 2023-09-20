@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33712.159
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sparse Matrix", "Sparse Matrix\Sparse Matrix.vcxproj", "{CC5E0B19-9858-4F34-B5C8-1772BFADB9E6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sparse Coordinate Matrix Vectorized", "Sparse Coordinate Matrix Vectorized\Sparse Coordinate Matrix Vectorized.vcxproj", "{40F45344-B2E5-43FF-AB57-3A5079AFF695}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC5E0B19-9858-4F34-B5C8-1772BFADB9E6}.Debug|x64.ActiveCfg = Debug|x64
+		{CC5E0B19-9858-4F34-B5C8-1772BFADB9E6}.Debug|x64.Build.0 = Debug|x64
+		{CC5E0B19-9858-4F34-B5C8-1772BFADB9E6}.Debug|x86.ActiveCfg = Debug|Win32
+		{CC5E0B19-9858-4F34-B5C8-1772BFADB9E6}.Debug|x86.Build.0 = Debug|Win32
+		{CC5E0B19-9858-4F34-B5C8-1772BFADB9E6}.Release|x64.ActiveCfg = Release|x64
+		{CC5E0B19-9858-4F34-B5C8-1772BFADB9E6}.Release|x64.Build.0 = Release|x64
+		{CC5E0B19-9858-4F34-B5C8-1772BFADB9E6}.Release|x86.ActiveCfg = Release|Win32
+		{CC5E0B19-9858-4F34-B5C8-1772BFADB9E6}.Release|x86.Build.0 = Release|Win32
+		{40F45344-B2E5-43FF-AB57-3A5079AFF695}.Debug|x64.ActiveCfg = Debug|x64
+		{40F45344-B2E5-43FF-AB57-3A5079AFF695}.Debug|x64.Build.0 = Debug|x64
+		{40F45344-B2E5-43FF-AB57-3A5079AFF695}.Debug|x86.ActiveCfg = Debug|Win32
+		{40F45344-B2E5-43FF-AB57-3A5079AFF695}.Debug|x86.Build.0 = Debug|Win32
+		{40F45344-B2E5-43FF-AB57-3A5079AFF695}.Release|x64.ActiveCfg = Release|x64
+		{40F45344-B2E5-43FF-AB57-3A5079AFF695}.Release|x64.Build.0 = Release|x64
+		{40F45344-B2E5-43FF-AB57-3A5079AFF695}.Release|x86.ActiveCfg = Release|Win32
+		{40F45344-B2E5-43FF-AB57-3A5079AFF695}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19388455-4F81-49A4-81FD-CA7531F76918}
+	EndGlobalSection
+EndGlobal

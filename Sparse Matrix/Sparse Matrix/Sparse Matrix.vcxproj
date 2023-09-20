@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{187a04df-2334-44d5-a3c6-6d55e98f980c}</ProjectGuid>
-    <RootNamespace>List</RootNamespace>
+    <ProjectGuid>{cc5e0b19-9858-4f34-b5c8-1772bfadb9e6}</ProjectGuid>
+    <RootNamespace>SparseMatrix</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,12 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="lab1.cpp" />
-    <ClCompile Include="List.cpp" />
+    <ClCompile Include="Sparse Matrix.cpp" />
+    <ClCompile Include="sparseMatrix.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="List.h" />
-    <ClInclude Include="Utilities.h" />
+    <ClInclude Include="MatrixUtils.h" />
+    <ClInclude Include="sparseMatrix.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
