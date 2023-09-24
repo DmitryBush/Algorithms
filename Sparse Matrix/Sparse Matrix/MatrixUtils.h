@@ -14,7 +14,7 @@ namespace matUtils
         const unsigned int column)
     {
         srand(time(NULL));
-        for (int i = 0; i < (row + column); i++)
+        for (unsigned int i = 0; i < (row + column); i++)
         {
             matrix.AddElement((rand() % 10) + 1,
                 static_cast<unsigned int>((rand() % row) + 1),
