@@ -1,28 +1,23 @@
 #pragma once
 #include <functional>
+#include "TreeNode.h"
+#include "List.h"
 
 class BinaryTree
 {
 private:
-	class TreeNode
-	{
-	public:
-		int value, vertexNumb;
-		TreeNode* left, * right;
-
-		TreeNode(const int& val = 0) : right(nullptr), value(val),
-			vertexNumb(0), left(nullptr) {}
-	};
-
 	TreeNode* root;
 	unsigned int countElements;
+
 	TreeNode* AddNode(const int& val, TreeNode* node);
-	void ForwardNumbering(TreeNode* node, int& vertex);
-	void ForwardPass(TreeNode* node, const std::function<void(TreeNode* node)> t);
+	void ForwardPass(TreeNode* node, int& vertex);
+	void ForwardSortedPass(TreeNode* node, const std::function<void(TreeNode* node)> t);
+	void DeleteNode(TreeNode* node, list& stack, const int& val);
 public:
 	BinaryTree();
 
 	void AddNode(const int& val);
+	void DeleteNode(const int& val);
 
 	void Print();
 

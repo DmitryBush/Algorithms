@@ -9,5 +9,6 @@ int main()
 	tree.AddNode(9);
 	tree.AddNode(3);
 	tree.AddNode(2);
+	tree.DeleteNode(9);
 	tree.Print();
 }
