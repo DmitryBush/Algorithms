@@ -27,15 +27,14 @@ TreeNode* BinaryTree::Insert(const int& val, TreeNode* node)
 	return node;
 }
 
-void BinaryTree::PrefixPass(TreeNode* node, int& vertex, 
-	const std::function<void(TreeNode* node, int& vertex)> t)
+void BinaryTree::PrefixPass(TreeNode* node, int& vertex)
 {
 	if (node == nullptr)
 		return;
 
-	t(node, vertex); //node->vertexNumb = vertex++;
-	PrefixPass(node->left, vertex, t);
-	PrefixPass(node->right, vertex, t);
+	node->vertexNumb = vertex++;
+	PrefixPass(node->left, vertex);
+	PrefixPass(node->right, vertex);
 }
 
 void BinaryTree::InfixPass(TreeNode* node, const std::function<void(TreeNode* node)> t)
@@ -79,38 +78,45 @@ void BinaryTree::DeleteNode(TreeNode* node, list& stack, const int& val)
 		}
 		else if (node->left == nullptr)
 		{
-			TreeNode* del = node;
 			if (node == stack[0]->left)
 			{
 				stack[0]->left = node->right;
-				delete del;
+				delete node;
 			}
 			else
 			{
 				stack[0]->right = node->right;
-				delete del;
+				delete node;
 			}
 		}
 		else if (node->right == nullptr)
 		{
-			TreeNode* del = node;
 			if (node == stack[0]->left)
 			{
 				stack[0]->left = node->left;
-				delete del;
+				delete node;
 			}
 			else
 			{
 				stack[0]->right = node->left;
-				delete del;
+				delete node;
 			}
 		}
 		else if (node->right->left == nullptr)
 		{
 			TreeNode* del = node;
-			stack[0]->right = node->right;
-			stack[0]->left = del->left;
-			delete del;
+			if (node == stack[0]->left)
+			{
+				stack[0]->left = node->right;
+				stack[0]->left->left = node->left;
+				delete del;
+			}
+			else
+			{
+				stack[0]->right = node->right;
+				stack[0]->right->left = node->left;
+				delete del;
+			}
 		}
 		else
 		{
@@ -143,12 +149,16 @@ void BinaryTree::Task(TreeNode* node, int path, int* maxVal)
 	{
 		if (node->left->value > node->value)
 			Task(node->left, path + 1, maxVal);
+		else
+			Task(node->left, 1, maxVal);
 	}
 
 	if (node->right)
 	{
 		if (node->right->value > node->value)
 			Task(node->right, path + 1, maxVal);
+		else
+			Task(node->right, 1, maxVal);
 	}
 
 	if (path > *maxVal)
@@ -182,10 +192,7 @@ void BinaryTree::Insert(const int& val)
 	{
 		root->right = Insert(val, root->right);
 	}
-	PrefixPass(root, vertexNumb, [](TreeNode* node, int& vertex)
-		{
-			node->vertexNumb = vertex++;
-		});
+	PrefixPass(root, vertexNumb);
 }
 
 void BinaryTree::DeleteNode(const int& val)
@@ -245,10 +252,10 @@ void BinaryTree::Clear()
 
 void BinaryTree::Task()
 {
-	int* maxPath = new int{ 2 };
+	int* maxPath = new int{ 0 };
 	if (root)
 	{
-		Task(root->right, 2, maxPath);
+		Task(root, 1, maxPath);
 		std::cout << "Max path is " << *maxPath << '\n';
 	}
 	else
@@ -265,12 +272,7 @@ void BinaryTree::Print()
 	else
 	{
 		int a = 0;
-		//InfixPass(root, [](TreeNode* node) {std::cout << node->value << ' '; });
-		PrefixPass(root, a,
-			[](TreeNode* node, int& vertex) 
-			{
-				std::cout << node->value << ' ' << node->vertexNumb << '\n';
-			});
+		InfixPass(root, [](TreeNode* node) {std::cout << node->value << ' '; });
 		std::cout << '\n';
 	}	
 }

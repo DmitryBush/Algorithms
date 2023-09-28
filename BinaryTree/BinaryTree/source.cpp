@@ -33,7 +33,7 @@ int main()
 
             tree.DeleteNode(elem);
 
-            //system("cls");
+            system("cls");
             break;
         case '3':
             system("cls");
