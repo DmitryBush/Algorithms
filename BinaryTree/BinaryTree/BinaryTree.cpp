@@ -1,7 +1,7 @@
 ﻿#include "BinaryTree.h"
 #include <iostream>
 
-TreeNode* BinaryTree::AddNode(const int& val, TreeNode* node)
+TreeNode* BinaryTree::Insert(const int& val, TreeNode* node)
 {
 	if (node == nullptr)
 	{
@@ -18,11 +18,11 @@ TreeNode* BinaryTree::AddNode(const int& val, TreeNode* node)
 	}
 	else if (val < node->value)
 	{
-		node->left = AddNode(val, node->left);
+		node->left = Insert(val, node->left);
 	}
 	else
 	{
-		node->right = AddNode(val, node->right);
+		node->right = Insert(val, node->right);
 	}
 	return node;
 }
@@ -74,17 +74,20 @@ void BinaryTree::DeleteNode(TreeNode* node, list& stack, const int& val)
 		else if (node->left == nullptr)
 		{
 			TreeNode* del = node;
-			node = node->right; delete del;
+			stack[0]->right = node->right;
+			delete del;
 		}
 		else if (node->right == nullptr)
 		{
 			TreeNode* del = node;
-			node = node->left; delete del;
+			stack[0]->left = node->left;
+			delete del;
 		}
 		else if (node->right->left == nullptr)
 		{
 			TreeNode* del = node;
-			node = node->right; node->left = del->left;
+			stack[0]->right = node->right;
+			stack[0]->left = del->left;
 			delete del;
 		}
 		else
@@ -93,16 +96,47 @@ void BinaryTree::DeleteNode(TreeNode* node, list& stack, const int& val)
 			while (del->left) { del = del->left;  preElem = preElem->left; }
 
 			preElem->left = nullptr;
-			node->value = del->value;
+			stack[0]->value = del->value;
 			delete del;
 		}
 	}
 }
 
+void BinaryTree::Clear(TreeNode* node)
+{
+	if (node)
+	{
+		Clear(node->left);
+		Clear(node->right);
+		delete node;
+	}
+}
+
+void BinaryTree::Task(TreeNode* node, int path, int* maxVal)
+{
+	if (node == nullptr)
+		return;
+
+	if (node->left)
+	{
+		if (node->left->value > node->value)
+			Task(node->left, path + 1, maxVal);
+	}
+
+	if (node->right)
+	{
+		if (node->right->value > node->value)
+			Task(node->right, path + 1, maxVal);
+	}
+
+	if (path > *maxVal)
+		*maxVal = path;
+}
+
 BinaryTree::BinaryTree(): root(nullptr), countElements(0)
 {}
 
-void BinaryTree::AddNode(const int& val)
+void BinaryTree::Insert(const int& val)
 {
 	int vertexNumb = 1;
 	if (root == nullptr)
@@ -120,11 +154,11 @@ void BinaryTree::AddNode(const int& val)
 	}
 	else if (val < root->value)
 	{
-		root->left = AddNode(val, root->left);
+		root->left = Insert(val, root->left);
 	}
 	else
 	{
-		root->right = AddNode(val, root->right);
+		root->right = Insert(val, root->right);
 	}
 	ForwardPass(root, vertexNumb);
 }
@@ -178,15 +212,36 @@ void BinaryTree::DeleteNode(const int& val)
 	}
 }
 
+void BinaryTree::Clear()
+{
+	Clear(root); 
+	countElements = 0; root = nullptr;
+}
+
+void BinaryTree::Task()
+{
+	int* maxPath = new int{ 2 };
+	if (root)
+	{
+		Task(root->right, 2, maxPath);
+		std::cout << "Max path is " << *maxPath << '\n';
+	}
+	else
+	{
+		std::cout << "Error has occuried: Tree is empty" << '\n';
+	}
+	delete maxPath; maxPath = nullptr;
+}
+
 void BinaryTree::Print()
 {
 	if (root == nullptr)
 		std::cout << "Theres no elements to show" << '\n';
 	else
+	{
 		ForwardSortedPass(root, [](TreeNode* node) {std::cout << node->value << ' '; });
+		std::cout << '\n';
+	}	
 }
 
-BinaryTree::~BinaryTree()
-{
-
-}
+BinaryTree::~BinaryTree() { Clear(); }
