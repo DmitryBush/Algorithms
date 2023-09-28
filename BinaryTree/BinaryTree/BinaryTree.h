@@ -10,8 +10,9 @@ private:
 	unsigned int countElements;
 
 	TreeNode* Insert(const int& val, TreeNode* node);
-	void ForwardPass(TreeNode* node, int& vertex);
-	void ForwardSortedPass(TreeNode* node, const std::function<void(TreeNode* node)> t);
+	void PrefixPass(TreeNode* node, int& vertex,
+		const std::function<void(TreeNode* node, int& vertex)> t);
+	void InfixPass(TreeNode* node, const std::function<void(TreeNode* node)> t);
 	void DeleteNode(TreeNode* node, list& stack, const int& val);
 	void Clear(TreeNode* node);
 	void Task(TreeNode* node, int path, int* maxVal);

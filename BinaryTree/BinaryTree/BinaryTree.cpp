@@ -27,24 +27,25 @@ TreeNode* BinaryTree::Insert(const int& val, TreeNode* node)
 	return node;
 }
 
-void BinaryTree::ForwardPass(TreeNode* node, int& vertex)
+void BinaryTree::PrefixPass(TreeNode* node, int& vertex, 
+	const std::function<void(TreeNode* node, int& vertex)> t)
 {
 	if (node == nullptr)
 		return;
 
-	node->vertexNumb = vertex++;
-	ForwardPass(node->left, vertex);
-	ForwardPass(node->right, vertex);
+	t(node, vertex); //node->vertexNumb = vertex++;
+	PrefixPass(node->left, vertex, t);
+	PrefixPass(node->right, vertex, t);
 }
 
-void BinaryTree::ForwardSortedPass(TreeNode* node, const std::function<void(TreeNode* node)> t)
+void BinaryTree::InfixPass(TreeNode* node, const std::function<void(TreeNode* node)> t)
 {
 	if (node == nullptr)
 		return;
 
-	ForwardSortedPass(node->left, t);
+	InfixPass(node->left, t);
 	t(node);
-	ForwardSortedPass(node->right, t);
+	InfixPass(node->right, t);
 }
 
 void BinaryTree::DeleteNode(TreeNode* node, list& stack, const int& val)
@@ -66,22 +67,43 @@ void BinaryTree::DeleteNode(TreeNode* node, list& stack, const int& val)
 		if (node->left == nullptr && node->right == nullptr)
 		{
 			if (node == stack[0]->left)
+			{
 				stack[0]->left = nullptr;
+				delete node;
+			}
 			else
+			{
 				stack[0]->right = nullptr;
-			delete node;
+				delete node;
+			}
 		}
 		else if (node->left == nullptr)
 		{
 			TreeNode* del = node;
-			stack[0]->right = node->right;
-			delete del;
+			if (node == stack[0]->left)
+			{
+				stack[0]->left = node->right;
+				delete del;
+			}
+			else
+			{
+				stack[0]->right = node->right;
+				delete del;
+			}
 		}
 		else if (node->right == nullptr)
 		{
 			TreeNode* del = node;
-			stack[0]->left = node->left;
-			delete del;
+			if (node == stack[0]->left)
+			{
+				stack[0]->left = node->left;
+				delete del;
+			}
+			else
+			{
+				stack[0]->right = node->left;
+				delete del;
+			}
 		}
 		else if (node->right->left == nullptr)
 		{
@@ -96,7 +118,7 @@ void BinaryTree::DeleteNode(TreeNode* node, list& stack, const int& val)
 			while (del->left) { del = del->left;  preElem = preElem->left; }
 
 			preElem->left = nullptr;
-			stack[0]->value = del->value;
+			node->value = del->value;
 			delete del;
 		}
 	}
@@ -160,7 +182,10 @@ void BinaryTree::Insert(const int& val)
 	{
 		root->right = Insert(val, root->right);
 	}
-	ForwardPass(root, vertexNumb);
+	PrefixPass(root, vertexNumb, [](TreeNode* node, int& vertex)
+		{
+			node->vertexNumb = vertex++;
+		});
 }
 
 void BinaryTree::DeleteNode(const int& val)
@@ -239,7 +264,13 @@ void BinaryTree::Print()
 		std::cout << "Theres no elements to show" << '\n';
 	else
 	{
-		ForwardSortedPass(root, [](TreeNode* node) {std::cout << node->value << ' '; });
+		int a = 0;
+		//InfixPass(root, [](TreeNode* node) {std::cout << node->value << ' '; });
+		PrefixPass(root, a,
+			[](TreeNode* node, int& vertex) 
+			{
+				std::cout << node->value << ' ' << node->vertexNumb << '\n';
+			});
 		std::cout << '\n';
 	}	
 }
