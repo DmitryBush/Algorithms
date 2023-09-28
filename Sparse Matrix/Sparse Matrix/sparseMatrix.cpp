@@ -22,7 +22,7 @@ int** sparseCoordMatrix::AllocateMem(int** arr, const unsigned int offset)
 {
 	arr = new int* [countElements + offset];
 
-	for (int i = 0; i < countElements + offset; i++)
+	for (unsigned int i = 0; i < countElements + offset; i++)
 	{
 		arr[i] = new int[3];
 	}
@@ -39,7 +39,7 @@ int** sparseCoordMatrix::Swap(int** prevMat, int** newMat, bool compr)
 	if (compr)
 	{
 		int maxRow = 0, maxColumn = 0;
-		for (int i = 0; i < countElements; i++)
+		for (unsigned int i = 0; i < countElements; i++)
 		{
 			if (prevMat[i][0] != -1) // значение -1 появляется при удалении элемента
 			{
@@ -61,8 +61,8 @@ int** sparseCoordMatrix::Swap(int** prevMat, int** newMat, bool compr)
 	}
 	else
 	{
-		for (int i = 0; i < rows; i++)
-			for (int j = 0; j < columns; j++)
+		for (unsigned int i = 0; i < rows; i++)
+			for (unsigned int j = 0; j < columns; j++)
 				if (prevMat[i][j])
 				{
 					newMat[k][0] = i;
@@ -81,7 +81,7 @@ void sparseCoordMatrix::CleanUpArray()
 {
 	if (matrix)
 	{
-		for (int i = 0; i < countElements; i++)
+		for (unsigned int i = 0; i < countElements; i++)
 		{
 			delete[] matrix[i];
 		}
@@ -97,7 +97,7 @@ void sparseCoordMatrix::CleanUpArray()
 int* sparseCoordMatrix::GetElement(const unsigned int& row, const unsigned int& column,
 	const bool& DEV_MODE)
 {
-	for (int i = 0; i < countElements; i++)
+	for (unsigned int i = 0; i < countElements; i++)
 		if (row == matrix[i][0] && column == matrix[i][1])
 			return matrix[i];
 	return nullptr;
@@ -169,7 +169,7 @@ void sparseCoordMatrix::AddElement(const int& val,
 */
 void sparseCoordMatrix::DeleteElement(const unsigned int& row, const unsigned int& column)
 {
-	for (int i = 0; i < countElements; i++)
+	for (unsigned int i = 0; i < countElements; i++)
 	{
 		if (row == matrix[i][0] && column == matrix[i][1])
 		{
@@ -190,14 +190,15 @@ void sparseCoordMatrix::DeleteElement(const unsigned int& row, const unsigned in
 */
 int sparseCoordMatrix::GetElement(const unsigned int& rows, const unsigned int& columns)
 {
-	for (int i = 0; i < countElements; i++)
+	for (unsigned int i = 0; i < countElements; i++)
 		if (rows == matrix[i][0] && columns == matrix[i][1])
 			return matrix[i][2];
 	return 0;
 }
 
 /*
-* Метод для импорта матрицы 
+* Метод для импорта матрицы
+* Предыдущая матрица будет удалена
 */
 void sparseCoordMatrix::ImportMatrix(int** arr, const int& rows, const int& columns)
 {
@@ -252,9 +253,9 @@ void sparseCoordMatrix::PrintMatrix()
 		std::cout << "There's no matrix to show" << '\n';
 	else
 	{
-		for (int i = 0; i < rows; i++)
+		for (unsigned int i = 0; i < rows; i++)
 		{
-			for (int j = 0; j < columns; j++)
+			for (unsigned int j = 0; j < columns; j++)
 				std::cout << GetElement(i, j) << ' ';
 			std::cout << '\n';
 		}
@@ -272,14 +273,15 @@ void sparseCoordMatrix::PrintMatrix()
 void sparseCoordMatrix::Task()
 {
 	PrintMatrix(); std::cout << '\n' <<  '\n';
-	for (int i = 0; i < countElements; i++)
+	for (unsigned int i = 0; i < countElements; i++)
 	{
-		if (matrix[i][1] + 1 > columns - 1 && matrix[i][0] + 1 > rows - 1)
+		if (static_cast<unsigned int>(matrix[i][1]) + 1 > columns - 1 && 
+			static_cast<unsigned int>(matrix[i][0]) + 1 > rows - 1)
 		{
 			matrix[i][0] = 0;
 			matrix[i][1] = 0;
 		}
-		else if (matrix[i][1] + 1 > columns - 1)
+		else if (static_cast<unsigned int>(matrix[i][1]) + 1 > columns - 1)
 		{
 			matrix[i][0]++;
 			matrix[i][1] = 0;
