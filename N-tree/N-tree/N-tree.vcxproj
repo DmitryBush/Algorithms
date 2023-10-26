@@ -128,9 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="N-tree.cpp" />
+    <ClCompile Include="nTree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DynamicArr.h" />
+    <ClInclude Include="nTree.h" />
+    <ClInclude Include="TreeUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

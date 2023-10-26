@@ -9,7 +9,7 @@ private:
 	unsigned int countElements;
 
 	T** AllocateMem(T** arr, const unsigned int offset);
-	T** Swap(T** prevMat, T** newMat, bool compr);
+	T** Swap(T** prevMat, T** newMat);
 	void CleanUpArray();
 public:
 	dynamicArr();
@@ -29,14 +29,14 @@ public:
 template<typename T>
 inline T** dynamicArr<T>::AllocateMem(T** arr, const unsigned int offset)
 {
-	arr = new T* [countElements + offset];
+	arr = new T * [countElements + offset] {nullptr};
 	return arr;
 }
 
 template<typename T>
-inline T** dynamicArr<T>::Swap(T** prevMat, T** newMat, bool compr)
+inline T** dynamicArr<T>::Swap(T** prevMat, T** newMat)
 {
-	for (int i = 0; i < countElements; i++)
+	for (unsigned int i = 0; i < countElements; i++)
 		if(prevMat[i] != nullptr)
 			newMat[i] = prevMat[i];
 	return newMat;
@@ -45,15 +45,11 @@ inline T** dynamicArr<T>::Swap(T** prevMat, T** newMat, bool compr)
 template<typename T>
 inline void dynamicArr<T>::CleanUpArray()
 {
-	if (data)
+	if (this->data)
 	{
-		for (unsigned int i = 0; i < countElements; i++)
-		{
-			delete[] data[i];
-		}
-		delete[] data;
+		delete[] this->data;
 
-		data = nullptr;
+		this->data = nullptr;
 	}
 }
 
@@ -67,19 +63,14 @@ inline dynamicArr<T>::dynamicArr()
 template<typename T>
 inline void dynamicArr<T>::Push(T dat)
 {
-	if (row < 0 || column < 0)
-		throw("Invalid index");
-	else
-	{
 		T** newArr = nullptr;
 		newArr = AllocateMem(newArr, countElements + 1);
 
-		newArr = Swap(data, newArr, true);
-		newArr[countElements] = dat;
+		newArr = Swap(data, newArr);
+		newArr[countElements] = new T{ dat };
 
 		CleanUpArray(); countElements++;
 		data = newArr;
-	}
 }
 
 template<typename T>
@@ -94,7 +85,7 @@ inline void dynamicArr<T>::Pop(const int& elem)
 			T** newArr = nullptr;
 
 			newArr = AllocateMem(newArr, countElements - 1);
-			newArr = Swap(data, newArr, true);
+			newArr = Swap(data, newArr);
 			CleanUpArray(); countElements--;
 			data = newArr;
 			break;
@@ -107,12 +98,13 @@ inline void dynamicArr<T>::Clear()
 {
 	CleanUpArray();
 	countElements = 0;
+	data = nullptr;
 }
 
 template<typename T>
 inline T* dynamicArr<T>::at(const unsigned int index)
 {
-	if (index < 0 || index >= countOfElements)
+	if (index < 0 || index >= countElements)
 		throw("Invalid index");
 	else if (data == nullptr)
 		throw("Matrix is empty");
@@ -123,7 +115,7 @@ inline T* dynamicArr<T>::at(const unsigned int index)
 template<typename T>
 inline T* dynamicArr<T>::operator[](const unsigned int index)
 {
-	if (index < 0 || index >= countOfElements)
+	if (index < 0 || index >= countElements)
 		throw("Invalid index");
 	else if (data == nullptr)
 		throw("Matrix is empty");
