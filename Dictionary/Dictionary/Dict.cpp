@@ -16,7 +16,7 @@ dict::~dict() { Clear(); }
 /*
 * Выделение памяти под новый элемент двунаправленного списка
 */
-bool dict::PushForward(std::string val, std::string key)
+bool dict::PushForward(const char* val, const char* key)
 {
 	if (head == nullptr)
 	{
@@ -268,7 +268,7 @@ void dict::ResetList()
 /*
 * Перегрузка оператора квадратных скобок, который возвращяет указатель на элемент
 */
-std::string dict::operator[](const std::string str)
+const char* dict::operator[](const char* str)
 {
 	if (head == nullptr)
 		throw("Dict is empty");
@@ -278,9 +278,9 @@ std::string dict::operator[](const std::string str)
 	{
 		if (!curr) 
 			throw("Not key?");
-		if (str == curr->key)
+		if (!strcmp(str, curr->key.GetString()))
 		{
-			return curr->value;
+			return curr->value.GetString();
 		}
 		curr = curr->next;
 	}
@@ -288,10 +288,22 @@ std::string dict::operator[](const std::string str)
 
 void dict::Task()
 {
-	/*if ()
+	unsigned int countAnagram = 0;
+	if (head)
 	{
-
-	}*/
+		node* curr = head;
+		for (auto i = 0; i < countElements; i++)
+		{
+			for (auto j = 0; j < countElements; j++)
+			{
+				/*if (!strcmp(curr.GetString(), b.GetString()))
+					countAnagram++;*/
+				curr = curr->next;
+			}
+		}
+	}
+	else
+		std::cout << "Dict is empty!" << '\n';
 }
 
 /*
@@ -311,9 +323,11 @@ void dict::Print()
 	{
 		while (curr->next)
 		{
-			std::cout << curr->value << ' ';
+			std::cout << "Value - " << curr->value.GetString() 
+				<< " Key - " << curr->key.GetString();
 			curr = curr->next;
 		}
-		std::cout << curr->value << ' ' << '\n';
+		std::cout << "Value - " << curr->value.GetString()
+			<< " Key - " << curr->key.GetString();
 	}
 }

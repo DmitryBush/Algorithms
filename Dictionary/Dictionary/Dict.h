@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "String.h"
 
 class dict
 {
@@ -12,11 +13,11 @@ private:
 	class node
 	{
 	public:
-		std::string value;
-		std::string key;
+		str value;
+		str key;
 		node* prev, *next;
 
-		node(std::string val, std::string key, node* next = nullptr):
+		node(const char* val, const char* key, node* next = nullptr):
 			next(next), value(val), key(key), prev(nullptr) {}
 	};
 	
@@ -29,7 +30,7 @@ public:
 
 	int GetCountOfElements() const { return countElements; }
 
-	bool PushForward(std::string val, std::string key);
+	bool PushForward(const char* val, const char* key);
 
 	bool PopForward(const unsigned int& id_Elem);
 	bool PopForward();
@@ -38,7 +39,7 @@ public:
 	bool IsEmpty() const { return head == nullptr; }
 	void ResetList();
 
-	std::string operator[](const std::string str);
+	const char* operator[](const char* str);
 
 	void Task();
 	void Print();
