@@ -56,10 +56,19 @@ bool dict::PushForward(const char* val, const char* key)
 /*
 * Удаление элемента двунаправленного списка, по указанному индексу
 */
-bool dict::PopForward(const unsigned int& index)
+bool dict::PopForward(std::string key)
 {
-	int a = 1;
-	node* del;
+	int a = 1, index = 0;
+	node* del = head;
+	for (auto i = 0; i < countElements; i++)
+	{
+		if (!strcmp(del->key.GetString(), key.c_str()))
+		{
+			index = i + 1;
+			break;
+		}
+		del = del->next;
+	}
 
 	if (head == nullptr)
 	{
@@ -292,18 +301,21 @@ void dict::Task()
 	if (head)
 	{
 		node* curr = head;
-		for (auto i = 0; i < countElements; i++)
+		while (curr->next)
 		{
-			for (auto j = 0; j < countElements; j++)
+			node* secCur = curr;
+			while (secCur->next)
 			{
-				/*if (!strcmp(curr.GetString(), b.GetString()))
-					countAnagram++;*/
-				curr = curr->next;
+				if (!strcmp(curr->value.GetString(), secCur->value.GetString()))
+					countAnagram++;
+				secCur = curr->next;
 			}
+			curr = curr->next;
 		}
+		std::cout << "There is " << countAnagram << " anagram" << '\n';
 	}
 	else
-		std::cout << "Dict is empty!" << '\n';
+		std::cout << "There is 0 anagram" << '\n';
 }
 
 /*
@@ -324,10 +336,10 @@ void dict::Print()
 		while (curr->next)
 		{
 			std::cout << "Value - " << curr->value.GetString() 
-				<< " Key - " << curr->key.GetString();
+				<< " Key - " << curr->key.GetString() << '\n';
 			curr = curr->next;
 		}
 		std::cout << "Value - " << curr->value.GetString()
-			<< " Key - " << curr->key.GetString();
+			<< " Key - " << curr->key.GetString() << '\n';
 	}
 }

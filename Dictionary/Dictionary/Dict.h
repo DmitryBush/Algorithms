@@ -32,7 +32,7 @@ public:
 
 	bool PushForward(const char* val, const char* key);
 
-	bool PopForward(const unsigned int& id_Elem);
+	bool PopForward(std::string key);
 	bool PopForward();
 	void Clear();
 
