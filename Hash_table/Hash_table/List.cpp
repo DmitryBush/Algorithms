@@ -16,14 +16,15 @@ list::~list() { Clear(); }
 * Выделение памяти под новый элемент двунаправленного списка
 */
 bool list::PushForward(std::string surname, std::string name,
-	std::string fatherName)
+	std::string fatherName, std::string key)
 {
 	if (head == nullptr)
 	{
 		try
 		{
-			head = new nodeList(surname, name, fatherName);		// Попытка выделения памяти в списке с переданным параметром
-			countElements++;			// или параметром по умолчанию
+			// Попытка выделения памяти под узел с переданным параметром
+			head = new nodeList(surname, name, fatherName, key);		
+			countElements++;			
 			return true;
 		}
 		catch (const std::bad_alloc& ex)
@@ -37,8 +38,10 @@ bool list::PushForward(std::string surname, std::string name,
 	{
 		try
 		{
-			nodeList* curr = new nodeList(surname, name, fatherName, head);	// Попытка выделения памяти под узел с переданным параметром
-			head->prev = curr;					// и его связь со списком
+			// Попытка выделения памяти под узел с переданным параметром
+			nodeList* curr = new nodeList(surname, name, 
+				fatherName, key, head);	
+			head->prev = curr;					
 
 			head = curr;
 			countElements++;
@@ -268,12 +271,17 @@ void list::ResetList()
 /*
 * Перегрузка оператора квадратных скобок, который возвращяет указатель на элемент
 */
-node* list::operator[](const unsigned int index)
+nodeInStack* list::operator[](const unsigned int index)
 {
-	if (index <= 0 || index > countElements)
-		return nullptr;
+	if (index < 0 || index > countElements)
+	{
+		throw("invalid index");
+	}
+
 	if (head == nullptr)
-		return nullptr;
+	{
+		throw("empty list");
+	}
 
 	nodeList* curr = head;
 	for (unsigned int i = 0; i < index; i++) 

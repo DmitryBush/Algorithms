@@ -12,7 +12,7 @@ public:
 		surname(surname), name(name), fatherName(fatherName) {}
 };
 
-bool operator==(person arg_1, person arg_2)
+inline bool operator==(person arg_1, person arg_2)
 {
 	if (arg_1.name == arg_2.name
 		&& arg_1.surname == arg_2.surname

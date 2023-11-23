@@ -1,18 +1,6 @@
 #pragma once
-#include "Person.h"
-#include "List.h"
 #include "HashNode.h"
 
-//class node
-//{
-//public:
-//	person human;
-//	list stack;
-//	bool deleted, collision;
-//
-//	node(std::string surname, std::string name, std::string fatherName): 
-//		human(surname, name, fatherName), deleted(false), collision(false) {}
-//};
 
 class hashTable
 {
@@ -31,12 +19,27 @@ private:
 	int ComputeAddress(const std::string str);
 	unsigned int SumStr(const std::string str);
 	unsigned int CalcNumDigit(const unsigned int numb);
-	void ReHash();
-	void CleanUpArr(node** arr);
+	void ReSize();
+	void CleanUpArr(node** arr, const unsigned int& arrSize);
 public:
 	hashTable();
 
-	void Push(std::string surname, std::string name, std::string fatherName);
+	void Push(std::string surname, std::string name, 
+		std::string fatherName, std::string key);
+	void Find(std::string key);
+	void Pop(std::string key);
+	void ReHash();
+
+	void Print();
 
 	~hashTable();
 };
+
+//bool operator==(person arg_1, person arg_2)
+//{
+//	if (arg_1.name == arg_2.name
+//		&& arg_1.surname == arg_2.surname
+//		&& arg_1.fatherName == arg_2.fatherName)
+//		return true;
+//	return false;
+//}

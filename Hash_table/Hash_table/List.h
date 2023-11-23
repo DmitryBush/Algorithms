@@ -1,5 +1,18 @@
 #pragma once
-#include "HashNode.h"
+#include "Person.h"
+
+class nodeInStack
+{
+public:
+	person human;
+	std::string key;
+	bool deleted, collision;
+
+	nodeInStack(std::string surname, std::string name, 
+		std::string fatherName, std::string key) :
+		human(surname, name, fatherName), deleted(false), 
+		collision(false), key(key) {}
+};
 
 class list
 {
@@ -12,12 +25,12 @@ private:
 	class nodeList
 	{
 	public:
-		node value;
+		nodeInStack value;
 		nodeList* prev, *next;
 
 		nodeList(std::string surname, std::string name, 
-			std::string fatherName, nodeList* next = nullptr):
-			next(next), value(surname, name, fatherName), prev(nullptr) {}
+			std::string fatherName, std::string key, nodeList* next = nullptr):
+			next(next), value(surname, name, fatherName, key), prev(nullptr) {}
 	};
 	
 	nodeList* head;
@@ -30,7 +43,7 @@ public:
 	int GetCountOfElements() const { return countElements; }
 
 	bool PushForward(std::string surname, std::string name,
-		std::string fatherName);
+		std::string fatherName, std::string key);
 
 	bool PopForward(const unsigned int& id_Elem);
 	bool PopForward();
@@ -39,6 +52,6 @@ public:
 	bool IsEmpty() const { return head == nullptr; }
 	void ResetList();
 
-	node* operator[] (const unsigned int index);
+	nodeInStack* operator[] (const unsigned int index);
 
 };
