@@ -16,14 +16,14 @@ list::~list() { Clear(); }
 * Выделение памяти под новый элемент двунаправленного списка
 */
 bool list::PushForward(std::string surname, std::string name,
-	std::string fatherName, std::string key)
+	std::string fatherName)
 {
 	if (head == nullptr)
 	{
 		try
 		{
 			// Попытка выделения памяти под узел с переданным параметром
-			head = new nodeList(surname, name, fatherName, key);		
+			head = new nodeList(surname, name, fatherName);
 			countElements++;			
 			return true;
 		}
@@ -40,7 +40,7 @@ bool list::PushForward(std::string surname, std::string name,
 		{
 			// Попытка выделения памяти под узел с переданным параметром
 			nodeList* curr = new nodeList(surname, name, 
-				fatherName, key, head);	
+				fatherName, head);	
 			head->prev = curr;					
 
 			head = curr;

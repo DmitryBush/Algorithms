@@ -6,11 +6,11 @@ class node
 public:
 	person human;
 	list stack;
-	std::string key;
+	//std::string key;
 	bool deleted, collision;
 
 	node(std::string surname, std::string name, 
-		std::string fatherName, std::string key) :
+		std::string fatherName) :
 		human(surname, name, fatherName), deleted(false), 
-		collision(false), key(key) {}
+		collision(false) {}
 };

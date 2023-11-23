@@ -4,11 +4,11 @@
 int main()
 {
 	hashTable storage;
-	storage.Push("Kuzmin", "Lev", "Matveevich", "asd");
-	storage.Push("Astaxova", "Elizabeth", "Yanovna", "Doubtful");
-	storage.Push("Merkulova", "Maya", "Maximovna", "Almond");
-	storage.Push("Fomina", "Angeline", "Andreevna", "Construction");
-	storage.Push("Galkin", "Artem", "Denisovich", "Friendship");
-	
+	storage.Push("Kuzmin", "Lev", "Matveevich");
+	storage.Push("Astaxova", "Elizabeth", "Yanovna");
+	storage.Push("Merkulova", "Maya", "Maximovna");
+	storage.Push("Fomina", "Angeline", "Andreevna");
+	storage.Push("Galkin", "Artem", "Denisovich");
+	//storage.ReHash();
 	storage.Print();
 }

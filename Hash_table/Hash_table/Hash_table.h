@@ -16,8 +16,10 @@ private:
 	// Выделенные элементы под двумерный массив table
 	unsigned int tableSize;
 
-	int ComputeAddress(const std::string str);
-	unsigned int SumStr(const std::string str);
+	int ComputeAddress(const std::string surname, const std::string name,
+		const std::string fatherName);
+	unsigned int SumStr(const std::string surname, const std::string name,
+		const std::string fatherName);
 	unsigned int CalcNumDigit(const unsigned int numb);
 	void ReSize();
 	void CleanUpArr(node** arr, const unsigned int& arrSize);
@@ -25,9 +27,11 @@ public:
 	hashTable();
 
 	void Push(std::string surname, std::string name, 
-		std::string fatherName, std::string key);
-	void Find(std::string key);
-	void Pop(std::string key);
+		std::string fatherName);
+	void Find(std::string surname, std::string name,
+		std::string fatherName);
+	void Pop(std::string surname, std::string name,
+		std::string fatherName);
 	void ReHash();
 
 	void Print();

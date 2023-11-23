@@ -5,13 +5,13 @@ class nodeInStack
 {
 public:
 	person human;
-	std::string key;
+	//std::string key;
 	bool deleted, collision;
 
 	nodeInStack(std::string surname, std::string name, 
-		std::string fatherName, std::string key) :
+		std::string fatherName) :
 		human(surname, name, fatherName), deleted(false), 
-		collision(false), key(key) {}
+		collision(false) {}
 };
 
 class list
@@ -29,8 +29,8 @@ private:
 		nodeList* prev, *next;
 
 		nodeList(std::string surname, std::string name, 
-			std::string fatherName, std::string key, nodeList* next = nullptr):
-			next(next), value(surname, name, fatherName, key), prev(nullptr) {}
+			std::string fatherName, nodeList* next = nullptr):
+			next(next), value(surname, name, fatherName), prev(nullptr) {}
 	};
 	
 	nodeList* head;
@@ -43,7 +43,7 @@ public:
 	int GetCountOfElements() const { return countElements; }
 
 	bool PushForward(std::string surname, std::string name,
-		std::string fatherName, std::string key);
+		std::string fatherName);
 
 	bool PopForward(const unsigned int& id_Elem);
 	bool PopForward();
