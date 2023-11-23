@@ -136,6 +136,7 @@
     <ClInclude Include="Hash_table.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Person.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -146,10 +146,15 @@ void hashTable::CleanUpArr(node** arr, const unsigned int& arrSize)
 	}
 }
 
-hashTable::hashTable(): countElements(0), countAllElements(0)
+void hashTable::InitializeTable()
 {
 	tableSize = defaultSize;
 	table = new node * [tableSize] {nullptr};
+}
+
+hashTable::hashTable(): countElements(0), countAllElements(0)
+{
+	InitializeTable();
 }
 
 void hashTable::Push(std::string surname, 
@@ -272,13 +277,14 @@ void hashTable::Pop(std::string surname, std::string name,
 	else
 	{
 		person tmpPers(surname, name, fatherName);
-		if (table[index]->human == tmpPers)
-		{
-			table[index]->deleted = true;
-		}
-		else if (table[index]->deleted && !table[index]->collision)
+		if (table[index]->deleted && !table[index]->collision)
 		{
 			std::cout << "The specified element is already deleted" << '\n';
+		}
+		else if (table[index]->human == tmpPers)
+		{
+			table[index]->deleted = true;
+			countElements--;
 		}
 		else if (table[index]->collision)
 		{
@@ -288,6 +294,7 @@ void hashTable::Pop(std::string surname, std::string name,
 					&& !table[index]->stack[i]->deleted)
 				{
 					table[index]->stack[i]->deleted = true;
+					countElements--;
 					break;
 				}
 				else if (table[index]->stack[i]->human == tmpPers
@@ -299,6 +306,13 @@ void hashTable::Pop(std::string surname, std::string name,
 			}
 		}
 	}
+}
+
+void hashTable::Clear()
+{
+	CleanUpArr(table, tableSize);
+	countAllElements = 0, countElements = 0;
+	InitializeTable();
 }
 
 void hashTable::Print()
@@ -319,9 +333,12 @@ void hashTable::Print()
 						for (auto j = 0; 
 							j < table[i]->stack.GetCountOfElements(); j++)
 						{
-							std::cout << table[i]->stack[j]->human.surname << " "
-								<< table[i]->stack[j]->human.name << " "
-								<< table[i]->stack[j]->human.fatherName << '\n';
+							if (!table[i]->stack[j]->deleted)
+							{
+								std::cout << table[i]->stack[j]->human.surname << " "
+									<< table[i]->stack[j]->human.name << " "
+									<< table[i]->stack[j]->human.fatherName << '\n';
+							}
 						}
 					}
 				}
@@ -335,9 +352,12 @@ void hashTable::Print()
 						for (auto j = 0; 
 							j < table[i]->stack.GetCountOfElements(); j++)
 						{
-							std::cout << table[i]->stack[j]->human.surname << " "
-								<< table[i]->stack[j]->human.name << " "
-								<< table[i]->stack[j]->human.fatherName << '\n';
+							if (!table[i]->stack[j]->deleted)
+							{
+								std::cout << table[i]->stack[j]->human.surname << " "
+									<< table[i]->stack[j]->human.name << " "
+									<< table[i]->stack[j]->human.fatherName << '\n';
+							}
 						}
 					}
 				}

@@ -23,9 +23,9 @@ int main()
         case '1':
             std::cout << "Enter string" << '\n';
             std::cin >> str;
-            //dictUtils::CheckInputValidation(elem, "value");
+            dictUtils::CheckInputValidation(str, "string");
             std::cin >> key;
-            //dictUtils::CheckInputValidation(elem, "value");
+            dictUtils::CheckInputValidation(str, "key");
             storage.PushForward(str.c_str(), key.c_str());
 
             system("cls");
@@ -33,7 +33,7 @@ int main()
         case '2':
             std::cout << "Enter element to delete" << '\n';
             std::cin >> key;
-            //dictUtils::CheckInputValidation(elem, "element");
+            dictUtils::CheckInputValidation(key, "key");
             storage.PopForward(key);
 
             system("cls");

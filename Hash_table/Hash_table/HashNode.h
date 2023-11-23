@@ -6,7 +6,6 @@ class node
 public:
 	person human;
 	list stack;
-	//std::string key;
 	bool deleted, collision;
 
 	node(std::string surname, std::string name, 

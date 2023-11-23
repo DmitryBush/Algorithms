@@ -308,7 +308,7 @@ void dict::Task()
 			{
 				if (!strcmp(curr->value.GetString(), secCur->value.GetString()))
 					countAnagram++;
-				secCur = curr->next;
+				secCur = secCur->next;
 			}
 			curr = curr->next;
 		}

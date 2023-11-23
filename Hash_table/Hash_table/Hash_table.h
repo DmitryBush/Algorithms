@@ -23,6 +23,7 @@ private:
 	unsigned int CalcNumDigit(const unsigned int numb);
 	void ReSize();
 	void CleanUpArr(node** arr, const unsigned int& arrSize);
+	void InitializeTable();
 public:
 	hashTable();
 
@@ -34,6 +35,7 @@ public:
 		std::string fatherName);
 	void ReHash();
 
+	void Clear();
 	void Print();
 
 	~hashTable();
