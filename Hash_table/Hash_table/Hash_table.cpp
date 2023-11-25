@@ -231,11 +231,15 @@ void hashTable::Find(std::string surname, std::string name,
 	else
 	{
 		person tmpPers(surname, name, fatherName);
-		if (table[index]->human == tmpPers)
+		if (table[index]->deleted && !table[index]->collision)
+		{
+			std::cout << "The specified element is already deleted" << '\n';
+		}
+		else if (table[index]->human == tmpPers)
 		{
 			std::cout << table[index]->human.surname << " "
 				<< table[index]->human.name << " "
-				<< table[index]->human.fatherName << '\n';
+				<< table[index]->human.fatherName << '\n' << '\n';
 		}
 		else if (table[index]->deleted && !table[index]->collision)
 		{
@@ -250,7 +254,7 @@ void hashTable::Find(std::string surname, std::string name,
 				{
 					std::cout << table[index]->stack[i]->human.surname << " "
 						<< table[index]->stack[i]->human.name << " "
-						<< table[index]->stack[i]->human.fatherName << '\n';
+						<< table[index]->stack[i]->human.fatherName << '\n' << '\n';
 					break;
 				}
 				else if (table[index]->stack[i]->human == tmpPers

@@ -9,7 +9,6 @@ int main()
     while (running)
     {
         std::string str, key;
-        int elem = 0, value = 0;
         storage.Print();
         std::cout << "Operations:" << '\n'
             << "1) Add Element" << '\n'
@@ -24,6 +23,7 @@ int main()
             std::cout << "Enter string" << '\n';
             std::cin >> str;
             dictUtils::CheckInputValidation(str, "string");
+            std::cout << "Enter key" << '\n';
             std::cin >> key;
             dictUtils::CheckInputValidation(str, "key");
             storage.PushForward(str.c_str(), key.c_str());
@@ -31,7 +31,7 @@ int main()
             system("cls");
             break;
         case '2':
-            std::cout << "Enter element to delete" << '\n';
+            std::cout << "Enter key to delete" << '\n';
             std::cin >> key;
             dictUtils::CheckInputValidation(key, "key");
             storage.PopForward(key);

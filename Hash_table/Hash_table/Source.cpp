@@ -10,8 +10,10 @@ int main()
         std::cout << "Operations:" << '\n'
             << "1) Add Element" << '\n'
             << "2) Delete Element" << '\n'
-            << "3) Clear hashTable" << '\n'
-            << "4) Fill hashTable from file" << '\n'
+            << "3) Find Element" << '\n'
+            << "4) Rehash table" << '\n'
+            << "5) Clear hashTable" << '\n'
+            << "6) Fill hashTable from file" << '\n'
             << "0) Close" << '\n';
         switch (_getch())
         {
@@ -54,11 +56,35 @@ int main()
             fatherName.clear();
             break;
         case '3':
+            std::cout << "Enter name" << '\n';
+            std::cin >> name;
+            treeUtils::CheckInputValidation(name, "name");
+
+            std::cout << "Enter surname" << '\n';
+            std::cin >> surname;
+            treeUtils::CheckInputValidation(surname, "surname");
+
+            std::cout << "Enter fatherName" << '\n';
+            std::cin >> fatherName;
+            treeUtils::CheckInputValidation(fatherName, "fatherName");
+            system("cls");
+            hashTable.Find(surname, name, fatherName);
+
+            surname.clear();
+            name.clear();
+            fatherName.clear();
+            break;
+        case '4':
+            system("cls");
+            hashTable.ReHash();
+
+            break;
+        case '5':
             system("cls");
             hashTable.Clear();
 
             break;
-        case '4':
+        case '6':
             system("cls");
             treeUtils::FileFillMatrix(hashTable);
 

@@ -1,12 +1,24 @@
 #include "Dict.h"
 #include <iostream>
 #include <conio.h>
-//#include "Algorithm.h"
+#include "Algorithm.h"
 
 /*
 * Конструктор без параметров
 */
 dict::dict() : countElements(0) { head = nullptr; }
+
+dict::dict(const dict& arg)
+{
+	this->PushForward(arg.head->value.GetString(), arg.head->key.GetString());
+	//head = new node(arg.head->value.GetString(), arg.head->key.GetString());
+	node* curr = arg.head->next;
+	for (auto i = 0; i < arg.countElements - 1; i++)
+	{
+		this->PushForward(curr->value.GetString(), curr->key.GetString());
+		curr = curr->next;
+	}
+}
 
 /*
 * Деструктор, очищающий список
@@ -16,7 +28,7 @@ dict::~dict() { Clear(); }
 /*
 * Выделение памяти под новый элемент двунаправленного списка
 */
-bool dict::PushForward(const char* val, const char* key)
+void dict::PushForward(const char* val, const char* key)
 {
 	if (head == nullptr)
 	{
@@ -24,31 +36,35 @@ bool dict::PushForward(const char* val, const char* key)
 		{
 			head = new node(val, key);		// Попытка выделения памяти в списке с переданным параметром
 			countElements++;			// или параметром по умолчанию
-			return true;
 		}
 		catch (const std::bad_alloc& ex)
 		{
 			std::cout << "An error has occured" << "(code: " << ex.what()
 				<< "Not enough free RAM. Close other programs and try again" << std::endl;
-			return false;
 		}
 	}
 	else
 	{
 		try
 		{
+			node* currKey = head;
+			for (auto i = 0; i < countElements; i++)
+			{
+				if (!strcmp(currKey->key.GetString(), key))
+					return;
+					//throw("Key is used");
+				currKey = currKey->next;
+			}
 			node* curr = new node(val, key, head);	// Попытка выделения памяти под узел с переданным параметром
 			head->prev = curr;					// и его связь со списком
 
 			head = curr;
 			countElements++;
-			return true;
 		}
 		catch (const std::bad_alloc& ex)
 		{
 			std::cout << "An error has occured" << "(code: " << ex.what()
 				<< "Not enough free RAM. Close other programs and try again" << std::endl;
-			return false;
 		}
 	}
 }
@@ -298,20 +314,30 @@ const char* dict::operator[](const char* str)
 void dict::Task()
 {
 	unsigned int countAnagram = 0;
+	dict copy(*this);
 	if (head)
 	{
-		node* curr = head;
+		node* curr = copy.head;
 		while (curr->next)
 		{
-			node* secCur = curr;
+			node* secCur = curr->next; 
+			Algorithm::QuickSort(curr->value.GetString(), 
+				curr->value.size() - 1);
 			while (secCur->next)
 			{
+				Algorithm::QuickSort(secCur->value.GetString(),
+					secCur->value.size() - 1);
 				if (!strcmp(curr->value.GetString(), secCur->value.GetString()))
 					countAnagram++;
 				secCur = secCur->next;
 			}
 			curr = curr->next;
 		}
+		node* secCur = curr;
+		Algorithm::QuickSort(secCur->value.GetString(),
+			secCur->value.size() - 1);
+		if (!strcmp(curr->prev->value.GetString(), secCur->value.GetString()))
+			countAnagram++;
 		std::cout << "There is " << countAnagram << " anagram" << '\n';
 	}
 	else

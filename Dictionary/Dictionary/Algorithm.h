@@ -47,7 +47,7 @@ namespace Algorithm
 
 
 	template <typename IT, typename I>
-	void QuickSort(std::string& list, IT left_limit, IT right_limit)
+	void QuickSort(I* list, IT left_limit, IT right_limit)
 	{
 		IT low = left_limit; IT high = right_limit;
 		IT pivot = left_limit; std::advance(pivot, (std::distance(low, high)) / 2 + 1);
@@ -80,10 +80,12 @@ namespace Algorithm
 				right_limit--;
 			if (left_limit <= right_limit)
 			{
-				std::swap(arr[left_limit], arr[right_limit]);
+				char tmp = arr[left_limit];
+				arr[left_limit] = arr[right_limit];
+				arr[right_limit] = tmp;
 				left_limit++; right_limit--;
 			}
-		} while (left_limit < right_limit);
+		} while (left_limit <= right_limit);
 
 		if (right_limit > 0) QuickSort(arr, right_limit + 1);
 		if (left_limit < size) QuickSort(&arr[left_limit], size - left_limit);

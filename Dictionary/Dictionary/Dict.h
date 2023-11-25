@@ -25,12 +25,13 @@ private:
 	unsigned int countElements;
 public:
 	dict();
+	dict(const dict& arg);
 	~dict();
 
 
 	int GetCountOfElements() const { return countElements; }
 
-	bool PushForward(const char* val, const char* key);
+	void PushForward(const char* val, const char* key);
 
 	bool PopForward(std::string key);
 	bool PopForward();

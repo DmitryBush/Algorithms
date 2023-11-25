@@ -40,12 +40,3 @@ public:
 
 	~hashTable();
 };
-
-//bool operator==(person arg_1, person arg_2)
-//{
-//	if (arg_1.name == arg_2.name
-//		&& arg_1.surname == arg_2.surname
-//		&& arg_1.fatherName == arg_2.fatherName)
-//		return true;
-//	return false;
-//}
