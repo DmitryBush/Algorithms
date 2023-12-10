@@ -2,12 +2,17 @@
 #include <string.h>
 #include <iostream>
 
+// Метод выделения памяти
 char* str::AllocateMem(char* arr)
 {
 	arr = new char[countElements];
 	return arr;
 }
 
+/*
+* Метод определения количества элементов
+* для обновленного массива
+*/
 unsigned int str::DefineCountElem(const char* arr)
 {
 	if (arr || data)
@@ -15,6 +20,7 @@ unsigned int str::DefineCountElem(const char* arr)
 	return countElements = 0;
 }
 
+// Метод возращающий размер массива
 unsigned int str::SizeOfArr(const char* arr)
 {
 	if (arr)
@@ -66,6 +72,7 @@ void str::Clear()
 	CleanUpArray();
 }
 
+// Вывод строки
 void str::Print()
 {
 	for (auto i = 0; i < countElements; i++)
@@ -80,6 +87,7 @@ str::~str()
 	CleanUpArray();
 }
 
+// Метод добавления элемента
 void str::Push(const char* string)
 {
 	DefineCountElem(string);

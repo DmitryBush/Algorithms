@@ -11,7 +11,7 @@ dict::dict() : countElements(0) { head = nullptr; }
 dict::dict(const dict& arg)
 {
 	this->PushForward(arg.head->value.GetString(), arg.head->key.GetString());
-	//head = new node(arg.head->value.GetString(), arg.head->key.GetString());
+	
 	node* curr = arg.head->next;
 	for (auto i = 0; i < arg.countElements - 1; i++)
 	{
@@ -34,8 +34,8 @@ void dict::PushForward(const char* val, const char* key)
 	{
 		try
 		{
-			head = new node(val, key);		// Попытка выделения памяти в списке с переданным параметром
-			countElements++;			// или параметром по умолчанию
+			head = new node(val, key);		
+			countElements++;			
 		}
 		catch (const std::bad_alloc& ex)
 		{
@@ -52,11 +52,10 @@ void dict::PushForward(const char* val, const char* key)
 			{
 				if (!strcmp(currKey->key.GetString(), key))
 					return;
-					//throw("Key is used");
 				currKey = currKey->next;
 			}
-			node* curr = new node(val, key, head);	// Попытка выделения памяти под узел с переданным параметром
-			head->prev = curr;					// и его связь со списком
+			node* curr = new node(val, key, head);	
+			head->prev = curr;					
 
 			head = curr;
 			countElements++;
@@ -311,6 +310,10 @@ const char* dict::operator[](const char* str)
 	}
 }
 
+/*
+* Задается словарь. 
+* Найти в нем все анаграммы (слова, составленные из одних и тех же букв)
+*/
 void dict::Task()
 {
 	unsigned int countAnagram = 0;

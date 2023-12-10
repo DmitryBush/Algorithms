@@ -7,6 +7,9 @@
 
 namespace treeUtils
 {
+    /*
+    * Функция заполнения n-дерева из файла
+    */
     void FileFillMatrix(hashTable& table)
     {
         std::ifstream file;
@@ -34,7 +37,9 @@ namespace treeUtils
         }
     }
 
-    
+    /*
+    * Функция проверки корректности ввода
+    */
     void CheckInputValidation(std::string& inpValue, const char* str)
     {
         while (std::cin.fail() || inpValue.empty())

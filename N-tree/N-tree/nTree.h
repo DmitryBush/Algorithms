@@ -2,6 +2,7 @@
 #include "DynamicArr.h"
 #include <functional>
 
+// Класс узел n-дерева
 class nTreeNode
 {
 public:

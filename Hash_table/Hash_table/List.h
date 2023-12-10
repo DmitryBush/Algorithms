@@ -1,14 +1,14 @@
 #pragma once
 #include "Person.h"
 
-class nodeInStack
+// Клас узла для хранения в списке
+class nodeInList
 {
 public:
 	person human;
-	//std::string key;
 	bool deleted, collision;
 
-	nodeInStack(std::string surname, std::string name, 
+	nodeInList(std::string surname, std::string name, 
 		std::string fatherName) :
 		human(surname, name, fatherName), deleted(false), 
 		collision(false) {}
@@ -25,7 +25,7 @@ private:
 	class nodeList
 	{
 	public:
-		nodeInStack value;
+		nodeInList value;
 		nodeList* prev, *next;
 
 		nodeList(std::string surname, std::string name, 
@@ -52,6 +52,6 @@ public:
 	bool IsEmpty() const { return head == nullptr; }
 	void ResetList();
 
-	nodeInStack* operator[] (const unsigned int index);
+	nodeInList* operator[] (const unsigned int index);
 
 };

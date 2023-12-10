@@ -2,6 +2,7 @@
 #include "Dict.h"
 #include "Utils.h"
 
+// Основное тело программы
 int main()
 {
     system("chcp 1251"); system("cls");

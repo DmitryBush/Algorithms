@@ -1,6 +1,7 @@
 #pragma once
 #include "List.h"
 
+//  ласс узел хран€щий информацию в €чейке хэш таблицы
 class node
 {
 public:

@@ -1,6 +1,7 @@
 #include "nTree.h"
 #include <iostream>
 
+// Метод определяющий высоту n-дерева
 void nTree::DefineHeight(nTreeNode* node, unsigned int maxHeight)
 {
 	if (node == nullptr)
@@ -14,6 +15,7 @@ void nTree::DefineHeight(nTreeNode* node, unsigned int maxHeight)
 	}
 }
 
+// Проход n-дерева в глубину
 void nTree::NTreePass(nTreeNode* node, unsigned int depth,
 	const std::function<void(nTreeNode*, unsigned int)> t)
 {
@@ -25,6 +27,10 @@ void nTree::NTreePass(nTreeNode* node, unsigned int depth,
 		NTreePass(node->sons.at(i), depth, t);
 }
 
+/*
+* Дано N-дерево. Найти самый длинный от корня путь, 
+* проходящий только по вершинам с нечётными номерами.
+*/
 void nTree::Task(nTreeNode* node, unsigned int& maxHeight, unsigned int currHeight)
 {
 	if (node == nullptr)
@@ -39,6 +45,7 @@ void nTree::Task(nTreeNode* node, unsigned int& maxHeight, unsigned int currHeig
 	}
 }
 
+// Очистка n-Дерева
 void nTree::Clear(nTreeNode* node)
 {
 	if (node == nullptr)
@@ -49,6 +56,7 @@ void nTree::Clear(nTreeNode* node)
 	node->sons.Clear();
 }
 
+// Вывод текущей глубины дерева
 void nTree::PrintCurr(nTreeNode* node, unsigned int depth)
 {
 	if (node == nullptr)
@@ -58,15 +66,13 @@ void nTree::PrintCurr(nTreeNode* node, unsigned int depth)
 		return;
 	}
 
-	/*if (depth == currHeight)
-		std::cout << "Current depth " << currHeight + 1 << '\n';*/
+
 	if (depth == currHeight + 1)
 		std::cout << node->value << ' ';
 	for (auto i = 0; i < node->sons.GetCountElements(); i++)
 	{
 		PrintCurr(node->sons.at(i), depth + 1);
 	}
-		
 }
 
 nTree::nTree()
@@ -75,6 +81,7 @@ nTree::nTree()
 	root = nullptr, current = nullptr;
 }
 
+// Метод для добавления элемента в n-дерево
 void nTree::Push(const int& val)
 {
 	if (root == nullptr)
@@ -153,6 +160,7 @@ void nTree::MoveNode(const int& node)
 	}
 }
 
+// Удаление элементов текущей глубины и их сыновей
 void nTree::DeleteCurrHeight()
 {
 	if (root == nullptr)
@@ -170,6 +178,7 @@ void nTree::DeleteCurrHeight()
 	}
 }
 
+// Вывод элемент n-дерева текущей глубины
 void nTree::PrintCurr()
 {
 	if (root == nullptr)
@@ -187,6 +196,7 @@ void nTree::PrintCurr()
 	std::cout << '\n';
 }
 
+// Возрат к корню n-дерева
 void nTree::ResetToRoot()
 {
 	if (root)
@@ -199,6 +209,7 @@ void nTree::ResetToRoot()
 	}
 }
 
+// Метод для очистки массива
 void nTree::Clear()
 {
 	Clear(root);
@@ -206,6 +217,7 @@ void nTree::Clear()
 	countElements = 0, height = 0, currHeight = 0;
 }
 
+// Вывод n-дерева
 void nTree::Print()
 {
 	if (root == nullptr)
@@ -220,6 +232,10 @@ void nTree::Print()
 	std::cout << '\n';
 }
 
+/*
+* Дано N-дерево. Найти самый длинный от корня путь,
+* проходящий только по вершинам с нечётными номерами.
+*/
 void nTree::Task()
 {
 	unsigned int maxDepth = 0;

@@ -6,7 +6,9 @@
 
 namespace treeUtils
 {
-    
+    /*
+    * Функция заполнения n-дерева случайными числами
+    */
     nTree& RandomFillMatrix(nTree& tree)
     {
         tree.Clear();
@@ -25,7 +27,9 @@ namespace treeUtils
         return tree;
     }
 
-    
+    /*
+    * Функция заполнения n-дерева из файла
+    */
     void FileFillMatrix(nTree& tree)
     {
         std::ifstream file;
@@ -62,7 +66,9 @@ namespace treeUtils
         tree.ResetToRoot();
     }
 
-  
+    /*
+    * Функция проверки корректности ввода
+    */
     void CheckInputValidation(int& inpValue, const char* str)
     {
         while (std::cin.fail())
@@ -76,6 +82,9 @@ namespace treeUtils
         system("cls");
     }
 
+    /*
+    * Функция редактирования n-дерева в текущей глубине
+    */
     void EditTree(nTree& tree)
     {
         bool editing = true;

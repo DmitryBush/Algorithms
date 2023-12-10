@@ -26,6 +26,7 @@ public:
 	~dynamicArr();
 };
 
+// Выделение памяти под массив
 template<typename T>
 inline T** dynamicArr<T>::AllocateMem(T** arr, const unsigned int offset)
 {
@@ -33,6 +34,7 @@ inline T** dynamicArr<T>::AllocateMem(T** arr, const unsigned int offset)
 	return arr;
 }
 
+// Копирование данных исходного массива
 template<typename T>
 inline T** dynamicArr<T>::Swap(T** prevMat, T** newMat)
 {
@@ -42,6 +44,7 @@ inline T** dynamicArr<T>::Swap(T** prevMat, T** newMat)
 	return newMat;
 }
 
+// Удаление массива из памяти
 template<typename T>
 inline void dynamicArr<T>::CleanUpArray()
 {
@@ -60,19 +63,21 @@ inline dynamicArr<T>::dynamicArr()
 	countElements = 0;
 }
 
+// Метод для добавления элемента массива
 template<typename T>
 inline void dynamicArr<T>::Push(T dat)
 {
-		T** newArr = nullptr;
-		newArr = AllocateMem(newArr, countElements + 1);
+	T** newArr = nullptr;
+	newArr = AllocateMem(newArr, countElements + 1);
 
-		newArr = Swap(data, newArr);
-		newArr[countElements] = new T{ dat };
+	newArr = Swap(data, newArr);
+	newArr[countElements] = new T{ dat };
 
-		CleanUpArray(); countElements++;
-		data = newArr;
+	CleanUpArray(); countElements++;
+	data = newArr;
 }
 
+// Метод для удаления элемента массива
 template<typename T>
 inline void dynamicArr<T>::Pop(const int& elem)
 {
@@ -93,6 +98,7 @@ inline void dynamicArr<T>::Pop(const int& elem)
 	}
 }
 
+// Метод для очистки массива
 template<typename T>
 inline void dynamicArr<T>::Clear()
 {
@@ -101,6 +107,7 @@ inline void dynamicArr<T>::Clear()
 	data = nullptr;
 }
 
+// Метод получение доступа к элементу массива
 template<typename T>
 inline T* dynamicArr<T>::at(const unsigned int index)
 {
@@ -112,6 +119,7 @@ inline T* dynamicArr<T>::at(const unsigned int index)
 	return data[index];
 }
 
+// Перегрузка квадратных скобок для получение доступа к элементу массива
 template<typename T>
 inline T* dynamicArr<T>::operator[](const unsigned int index)
 {

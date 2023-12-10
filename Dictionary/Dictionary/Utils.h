@@ -7,7 +7,7 @@
 namespace dictUtils
 {
     /*
-    * 
+    * Функция заполнения словаря из файла
     */
     void FileFillList(dict& dictionary)
     {
@@ -35,6 +35,9 @@ namespace dictUtils
         }
     }
 
+    /*
+    * Функция проверки корректности ввода
+    */
     void CheckInputValidation(std::string& inpValue, const char* str)
     {
         while (std::cin.fail() || inpValue.empty())

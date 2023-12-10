@@ -271,7 +271,7 @@ void list::ResetList()
 /*
 * ѕерегрузка оператора квадратных скобок, который возвращ€ет указатель на элемент
 */
-nodeInStack* list::operator[](const unsigned int index)
+nodeInList* list::operator[](const unsigned int index)
 {
 	if (index < 0 || index > countElements)
 	{

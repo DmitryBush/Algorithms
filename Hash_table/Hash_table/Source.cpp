@@ -1,6 +1,6 @@
 ﻿#include "Utils.h"
 
-
+// Основное тело программы 
 int main()
 {
     bool running = true; hashTable hashTable;

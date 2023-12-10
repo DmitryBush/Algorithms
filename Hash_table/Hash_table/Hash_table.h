@@ -5,8 +5,10 @@
 class hashTable
 {
 private:
+	// Первоначальный размер хэш таблицы
 	const unsigned int defaultSize = 10;
-	const float ratioCapacity = 0.75;
+	// Коэффициент заполнености ре-хэширования
+	const float ratioCapacity = 0.75f;
 
 	node** table;
 	// Количество элементов хэш таблицы

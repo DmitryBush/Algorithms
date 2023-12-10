@@ -1,6 +1,7 @@
 #include "Hash_table.h"
 #include <iostream>
 
+// Вычисление адреса хэш таблицы функцией слияния
 int hashTable::ComputeAddress(const std::string surname, const std::string name,
 	const std::string fatherName)
 {
@@ -27,6 +28,7 @@ int hashTable::ComputeAddress(const std::string surname, const std::string name,
 	}
 }
 
+// Метод возвращающий сумму трех строк
 unsigned int hashTable::SumStr(const std::string surname, const std::string name,
 	const std::string fatherName)
 {
@@ -42,6 +44,7 @@ unsigned int hashTable::SumStr(const std::string surname, const std::string name
 	return sum;
 }
 
+// Метод вычисляющий количество разрядов числа
 unsigned int hashTable::CalcNumDigit(unsigned int numb)
 {
 	int digits = 0;
@@ -49,6 +52,7 @@ unsigned int hashTable::CalcNumDigit(unsigned int numb)
 	return digits;
 }
 
+// Метод ре-хэширования хэш таблицы
 void hashTable::ReHash()
 {
 	countElements = 0, countAllElements = 0;
@@ -90,10 +94,12 @@ void hashTable::ReHash()
 	CleanUpArr(newArr, tableSize);
 }
 
+// Метод увеличивающий хэш таблицу
 void hashTable::ReSize()
 {
 	unsigned int pastTableSize = tableSize;
 	tableSize *= 2;
+
 	countAllElements = 0, countElements = 0;
 	node** newArr = new node * [tableSize] {nullptr};
 	std::swap(table, newArr);
@@ -133,6 +139,7 @@ void hashTable::ReSize()
 	CleanUpArr(newArr, pastTableSize);
 }
 
+// Метод очищающий массив
 void hashTable::CleanUpArr(node** arr, const unsigned int& arrSize)
 {
 	if (arr)
@@ -157,6 +164,7 @@ hashTable::hashTable(): countElements(0), countAllElements(0)
 	InitializeTable();
 }
 
+// Метод добавляющий элемент в хэш таблицу
 void hashTable::Push(std::string surname, 
 	std::string name, std::string fatherName)
 {
@@ -218,6 +226,7 @@ void hashTable::Push(std::string surname,
 	countElements++;
 }
 
+// Метод поиска в хэш таблице
 void hashTable::Find(std::string surname, std::string name,
 	std::string fatherName)
 {
@@ -237,7 +246,7 @@ void hashTable::Find(std::string surname, std::string name,
 		}
 		else if (table[index]->human == tmpPers)
 		{
-			std::cout << table[index]->human.surname << " "
+			std::cout << "Found: " << table[index]->human.surname << " "
 				<< table[index]->human.name << " "
 				<< table[index]->human.fatherName << '\n' << '\n';
 		}
@@ -252,7 +261,7 @@ void hashTable::Find(std::string surname, std::string name,
 				if (table[index]->stack[i]->human == tmpPers 
 					&& !table[index]->stack[i]->deleted)
 				{
-					std::cout << table[index]->stack[i]->human.surname << " "
+					std::cout << "Found: " << table[index]->stack[i]->human.surname << " "
 						<< table[index]->stack[i]->human.name << " "
 						<< table[index]->stack[i]->human.fatherName << '\n' << '\n';
 					break;
@@ -268,6 +277,7 @@ void hashTable::Find(std::string surname, std::string name,
 	}
 }
 
+// Метод удаляющий элемент хэш таблицы
 void hashTable::Pop(std::string surname, std::string name,
 	std::string fatherName)
 {
@@ -312,6 +322,7 @@ void hashTable::Pop(std::string surname, std::string name,
 	}
 }
 
+// Метод очищения хэш таблицы
 void hashTable::Clear()
 {
 	CleanUpArr(table, tableSize);
@@ -319,6 +330,7 @@ void hashTable::Clear()
 	InitializeTable();
 }
 
+// Вывод хэш таблицы
 void hashTable::Print()
 {
 	if (table)
